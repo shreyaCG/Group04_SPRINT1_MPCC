@@ -27,7 +27,9 @@ class myServer
 		void send_message();
 		~myServer();
 	private:
-		int sockfd, new_sockfd, server_bind, server_listen;
+		int sockfd, new_sockfd, server_bind, server_listen, MAX;
+		int max_clients = 10, new_socket;
+	        int i ,sd , client_socket[30];
 		char server_buf[BSIZE], client_buf[BSIZE];
 		struct sockaddr_in server_addr, client_addr;
 		socklen_t server_length, client_length;
