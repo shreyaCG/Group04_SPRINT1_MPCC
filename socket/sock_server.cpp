@@ -49,33 +49,27 @@ void myServer::accept_client()
 	fd_set master;
 	FD_ZERO(&master);
 	FD_SET(server_listen, &master);
-
-	while(1){
-		fd_set copy = master;
-		if((select(FD_SETSIZE, &copy, nullptr, nullptr, nullptr))<0){
-			perror("[-] SELECT ERROR");
-			exit(EXIT_FAILURE);
-		}
-		for(int i=0;i<FD_SETSIZE;i++){
-			if(FD_ISSET(i, &copy)){
-				if(i == server_listen){
-					new_sockfd = accept(sockfd, (struct sockaddr*)&client_addr, &client_length);
-					//cout<<"[+] SERVER ACCEPTED THE CLIENT"<<endl;
-					if(new_sockfd<0){
-						perror("[-] ACCEPT ERROR");
-						exit(EXIT_FAILURE);
-					}
-					
-					FD_SET(new_sockfd, &master);
-				}
-				else{
-					FD_CLR(i, &copy);
-					close(sockfd);
-				}
+        int MAX = sockfd + 1;
+	for(;;)
+	{
+		FD_SET(sockfd , &master);
+		int ready_fd = select(MAX, &master, nullptr, nullptr, nullptr);
+		if(FD_ISSET(sockfd, &master)){
+			while(1){
+				new_sockfd = accept(sockfd, (struct sockaddr*)&client_addr, &client_length);
+				bzero(client_buf, sizeof(client_buf));
+				cout<<"Message from client";
+				read(new_sockfd, client_buf, sizeof(client_buf));
+				cout<<client_buf<<endl;
+				char* message = "Hello";
+				write(new_sockfd, (const char* )message, sizeof(client_buf));
 			}
+			close(new_sockfd);
 		}
 	}
-}
+
+}		
+
 myServer::~myServer()
 {
 }

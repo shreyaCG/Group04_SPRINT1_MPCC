@@ -25,6 +25,7 @@ class myClient
 		~myClient();
 	private:
 		int sockfd, client_connect;
+		char client_buf[BSIZE];
 		struct sockaddr_in server_addr, client_addr;
 		socklen_t server_length, client_length;
 };

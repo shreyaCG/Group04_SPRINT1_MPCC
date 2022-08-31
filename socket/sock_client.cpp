@@ -28,6 +28,15 @@ void myClient::connect_client()
 		exit(EXIT_FAILURE);
 	}
 	cout<<"[+] CLIENT CONNECTED TO THE SERVER"<<endl;
+	memset(client_buf, 0 , sizeof(client_buf));
+	strcpy(client_buf, "Hello");
+	write(sockfd, client_buf, sizeof(client_buf));
+	cout<<"From server: ";
+	read(sockfd, client_buf, sizeof(client_buf));
+	cout<<client_buf;
+	
+	//recv(sockfd,client_buf, sizeof(client_addr),0 );
+	//	cout<<client_buf<<endl;
 }
 myClient::~myClient()
 {
