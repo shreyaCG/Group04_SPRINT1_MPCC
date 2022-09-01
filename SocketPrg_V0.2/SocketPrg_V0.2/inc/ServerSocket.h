@@ -39,7 +39,7 @@ public:
 	int getServSockfd() { return sockfd; }
 	struct sockaddr_in getClientAddr(){ return client_addr; }
 	socklen_t getCAddrlen() { return len; }
-	
+	void serv_accept();
 
 
 };
