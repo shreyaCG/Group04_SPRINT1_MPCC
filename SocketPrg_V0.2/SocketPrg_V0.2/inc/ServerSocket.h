@@ -30,6 +30,21 @@ private:
 	struct sockaddr_in server_addr;
 	struct sockaddr_in client_addr;
 	socklen_t len;
+	int csockfd, client_sock[30];
+	
+	int max_clients = 30;
+
+	int serverfd, sd, max_sd;
+	
+	int readVal;
+
+	vector <int> vs_csock;
+	char buff[MAX_BUF];
+	//create master socket
+	fd_set master;
+	// set of sock_desc...
+	fd_set readfds;
+	int socketCount=0;
 public:
 	ServerSocket() { protno = 8080; ipaddr = "0.0.0.0"; }
 	ServerSocket(int _pno, string _ip) { protno = _pno; ipaddr = _ip; }
