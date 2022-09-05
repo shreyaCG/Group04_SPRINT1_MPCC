@@ -42,9 +42,22 @@ void details::database(details *d1)
 	fs.write(reinterpret_cast<const char*>(d1),size);
 	fs.close();
 }
-/*char* details::validate(details *d1)
+bool details::validate(details* d1)
 {
-}*/
+	string userID=d1->getUID();
+	string Pass=d1->getPassword();
+	if(userID.find("#") || userID.find("!") || userID.find("*"))
+	{
+		if(Pass.find("%") || Pass.find("$") || Pass.find("@"))
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return true;
+	}
+}
 
 
 

@@ -34,6 +34,17 @@ int main(int argc, char *argv[])
 				memset(&buf,0,MAX_BUF);
 				
 			}
+			bool b=d->validate(d);
+			if(b==0)
+			{
+				cout<<"INVALID"<<endl;
+				break;
+			}
+			else
+			{
+				cout<<"VALID"<<endl;
+				break;
+			}
 			recv(newfd,buf,sizeof(buf),0);
 			if(strcmp(buf,"success")==0)
 			{

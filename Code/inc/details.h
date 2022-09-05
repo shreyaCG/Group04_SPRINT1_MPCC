@@ -19,7 +19,7 @@ class details
 		void getdetails(){
 			cout<<uid<<endl;
 			cout<<password<<endl;}
-		char* validate(details *d);
+		bool validate(details*);
 		void* choose(int);
 		void* registeruser();
 		void* loginuser();
