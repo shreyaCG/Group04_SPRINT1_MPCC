@@ -1,6 +1,6 @@
-#include <SockClient.h>
+#include "SockClient.h"
 #include <unistd.h>
-#include<details.h>
+#include"details.h"
 //take port number and ip from command line
 int main(int argc, char *argv[])
 {

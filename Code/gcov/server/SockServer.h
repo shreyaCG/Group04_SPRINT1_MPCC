@@ -19,7 +19,7 @@
 #include <fstream>
 #include <ctime>
 #define MAX_BUF 4096
-#include<details.h>
+//#include<details.h>
 using namespace std;
 
 class Server{
