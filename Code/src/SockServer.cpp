@@ -166,11 +166,13 @@ void Server::registeruser_login()
 						{
 							size_t size=sizeof(details);	
 							fs.read(reinterpret_cast<char*>(&d2),size);
-							if((strcmp(d2.getUID(),d1->getUID()))&& 
-								(strcmp(d2.getPassword(),d1->getPassword()))==0)
+							if((strcmp(d2.getUID(),d1->getUID()))==0)
 							{
+								if((strcmp(d2.getPassword(),d1->getPassword()))==0)
+								{
 								flag=1;
 								break;
+								}
 							}
 						}
 						if(flag==1)
@@ -199,11 +201,13 @@ void Server::registeruser_login()
 					{
 						size_t size=sizeof(details);	
 						fs.read(reinterpret_cast<char*>(&d2),size);
-						if((strcmp(d2.getUID(),d1->getUID())) &&
-							(strcmp(d2.getPassword(),d1->getPassword()))==0)
+						if((strcmp(d2.getUID(),d1->getUID()))==0)
 						{
-							flag=1;
-							break;
+							if((strcmp(d2.getPassword(),d1->getPassword()))==0)
+							{
+								flag=1;
+								break;
+							}
 						}
 					}
 					if(flag==1)
