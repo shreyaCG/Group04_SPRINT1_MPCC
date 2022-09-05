@@ -20,13 +20,12 @@ class myClient
 		myClient();
 		void create_socket(string, int);
 		void connect_client();
-		void client_login();
 		//void receive_message();
-		//void send_message();
+		void send_message();
 		~myClient();
 	private:
 		int sockfd, client_connect;
-		char server_buf[BSIZE], client_buf[BSIZE];
+		char client_buf[BSIZE];
 		struct sockaddr_in server_addr, client_addr;
 		socklen_t server_length, client_length;
 };

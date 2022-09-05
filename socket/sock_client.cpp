@@ -19,30 +19,6 @@ void myClient::create_socket(string ip_addr, int port_no)
 	server_addr.sin_port = htons(port_no);
 	server_addr.sin_addr.s_addr = inet_addr((const char*)ip_addr.c_str());
 }
-void myClient::client_login()
-{
-	cout<<"[+] REGISTER TO THE SERVER"<<endl;
-	
-	string str_user;
-	cout<<"[+] ENTER USERNAME: ";
-	getline(cin,str_user);
-
-	char send_user[BSIZE];
-	strcpy(send_username,str.c_str());
-	send(sockfd, send_user, BSIZE,0);
-	
-	string str_pass;
-	cout<<"[+] ENTER PASSWORD: ";
-	getline(cin,str_pass);
-
-	char send_pass[BSIZE];
-	strcpy(send_pass,str.c_str());
-	send(sockfd, send_pass, BSIZE,0);
-	
-
-	//char buf[BSIZE];
-	//read(sockfd, buf, BSIZE);
-}
 void myClient::connect_client()
 {
 	server_length = sizeof(server_addr);
@@ -52,10 +28,33 @@ void myClient::connect_client()
 		exit(EXIT_FAILURE);
 	}
 	cout<<"[+] CLIENT CONNECTED TO THE SERVER"<<endl;
-	//while(1){
-		client_login();
-	//}
+}    
+void myClient::send_message()
+{	
+		while(1){
+
+		char buf[BSIZE] = {'\0',};
+		read(sockfd, buf, BSIZE);
+		cout<<buf<<endl;
+
+
+	memset(buf, 0 , sizeof(buf));
+	cout<<"Enter a message: ";
+	fgets(buf, sizeof(buf),stdin);
+	write(sockfd, buf, strlen(buf));
+	cout<<"Data sent "<<buf<<endl;
+		}
+	close(sockfd);
 }
+/*	strcpy(client_buf, "Hello");
+	write(sockfd, client_buf, sizeof(client_buf));
+	cout<<"From server: ";
+	read(sockfd, client_buf, sizeof(client_buf));
+	cout<<client_buf;
+	
+	//recv(sockfd,client_buf, sizeof(client_addr),0 );
+	//	cout<<client_buf<<endl;
+}*/
 myClient::~myClient()
 {
 }

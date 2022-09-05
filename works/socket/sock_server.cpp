@@ -21,7 +21,6 @@ void myServer::create_socket(string ip_addr, int port_no)
 }
 void myServer::bind_server()
 {
-	server_length = sizeof(server_addr);
 	server_bind = bind(sockfd, (struct sockaddr*)&server_addr, server_length);
 	if(server_bind<0){
 		perror("[-] BIND ERROR");
@@ -29,7 +28,7 @@ void myServer::bind_server()
 	}
 	cout<<"[+] SERVER IS BINDED TO PORT"<<endl;
 
-	server_listen = listen(sockfd, MAXCONN);
+	server_listen = listen(sockfd, MAXCONNECT);
 	if(server_listen<0){
 		perror("[-] LISTEN ERROR");
 		exit(EXIT_FAILURE);
@@ -42,40 +41,69 @@ void myServer::receive_message()
 void myServer::send_message()
 {
 }
+void myServer::login_server()
+{
+	char recv_username[BSIZE];
+	memset(recv_username,'\0',sizeof(recv_username));
+	recv(new_sockfd, recv_username, BSIZE, 0);
+	cout<<"[+] USERNAME RECEIVED"<<endl;	
+	
+	
+	
+	
+	
+	
+	
+	
+	//cout<<recv_username<<endl;	
+	//char buffer[BSIZE] = "[+] YOU ARE ADDED TO THE SESSION";
+	//write(new_sockfd,buffer,strlen(buffer));
+}
 void myServer::accept_client()
 {
 	client_length = sizeof(client_addr);
-
-	fd_set master;
-	FD_ZERO(&master);
-	FD_SET(server_listen, &master);
-
+	new_sockfd = accept(sockfd, (struct sockaddr*)&client_addr, &client_length);
+	if(new_sockfd<0){
+		perror("[-] ACCEPT ERROR");
+		exit(EXIT_FAILURE);
+	}
+	cout<<"[+] SERVER ACCEPTED THE CLIENT"<<endl;
 	while(1){
-		fd_set copy = master;
-		if((select(FD_SETSIZE, &copy, nullptr, nullptr, nullptr))<0){
+		login_server();
+	}
+}
+	/*while(1){
+		fd_set master;
+		FD_ZERO(&master);
+		FD_SET(sockfd, &master);
+		int max = sockfd + 1;
+		int new_socket;
+		char client_socket[BSIZE];
+		int max_client = MAXCLIENT;
+		for(int i=0; i<MAXCLIENT;i++){
+			int sock_add = client_socket[i];
+			if(sock_add > 0){
+				FD_SET(sock_add, &master);
+			}
+			if(sock_add > MAXCLIENT){
+			       max_client = sock_add;
+			}
+		}
+		int sock_select = select(max, &master, nullptr, nullptr, nullptr);
+		if(sock_select<0){
 			perror("[-] SELECT ERROR");
 			exit(EXIT_FAILURE);
 		}
-		for(int i=0;i<FD_SETSIZE;i++){
-			if(FD_ISSET(i, &copy)){
-				if(i == server_listen){
-					new_sockfd = accept(sockfd, (struct sockaddr*)&client_addr, &client_length);
-					//cout<<"[+] SERVER ACCEPTED THE CLIENT"<<endl;
-					if(new_sockfd<0){
-						perror("[-] ACCEPT ERROR");
-						exit(EXIT_FAILURE);
-					}
-					
-					FD_SET(new_sockfd, &master);
-				}
-				else{
-					FD_CLR(i, &copy);
-					close(sockfd);
+		if(FD_ISSET(sockfd, &master)){
+			new_sockfd = accept(sockfd, (struct sockaddr*)&client_addr, &client_length);
+			if(new_sockfd<0){
+				perror("[-] ACCEPT ERROR");
+				exit(EXIT_FAILURE);
+			}
 				}
 			}
 		}
-	}
-}
+	}*/
 myServer::~myServer()
 {
 }
