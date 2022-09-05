@@ -25,12 +25,13 @@ void* details:: choose(int option)
 	{
 		case 1:
 			cout<<"Enter credentials to register"<<endl;
-			buff=registeruser();													      break;
+			buff=registeruser();		
+			break;
 		case 2:
 			cout<<"Enter the login credentials"<<endl;
 			buff=loginuser();										
 	}
-			        return buff;
+	return buff;
 
 }
 void details::database(details *d1)
@@ -43,21 +44,6 @@ void details::database(details *d1)
 }
 /*char* details::validate(details *d1)
 {
-	int flag=0;
-//	int res=toupper((unsigned char)(d1->getUID()));
-	if(isdigit(res)==0)
-	{
-		flag=1;
-	}
-		if(flag==1)
-		{
-			cout<<"validation"<<endl;
-			cout<<d1->getUID();
-		}
-		else
-		{
-			cout<<"invalid"<<endl;
-		}
 }*/
 
 
