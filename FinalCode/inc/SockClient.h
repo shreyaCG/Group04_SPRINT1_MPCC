@@ -7,12 +7,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/wait.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <thread>
 #include <string>
-#include <future>
 #include<signal.h>
 #define MAX_BUF 4096
 
@@ -39,8 +37,6 @@ class Client{
 		void choose(int);	
 };
 
-void ReadData(int&, char*);
-void WriteData(int&, char*);
 //function to recieve the data from server
 void RecvData(int clientSocketFd, int flags);
 //function to send data to the server

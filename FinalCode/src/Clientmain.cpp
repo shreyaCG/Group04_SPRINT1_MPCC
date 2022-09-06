@@ -4,7 +4,7 @@
 //take port number and ip from command line
 int main(int argc, char *argv[])
 {
-	//system("clear");
+
 	try {
 		if(argc<3){
                         throw("Insufficient arguments\nUsage: <IP Address> <Port Number>");
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 			//allocate dynamic memory
 			Client *S = new Client(atoi(argv[2]), argv[1]);
 			details *d;
-			char buf[1024];
+			char buf[MAX_BUF];
 			void *buff;
 			
 			S->Create_Socket();//connect server to the client
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 						if(strcmp(buf,"failure")==0)
 						{
 							cout<<"\nlogin unsuccessful"<<endl;
-							cout<<"Terminated, Please Register to login"<<endl;
+							cout<<"Session Terminated"<<endl;
 							kill(getpid(),SIGINT);
 						}
 					}

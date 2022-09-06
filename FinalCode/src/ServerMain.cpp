@@ -8,12 +8,12 @@ int main(int argc, char *argv[])
 			throw("Insufficient arguments\nUsage: <IP Address> <Port Number>");
 		}
 		else {
-			Server s1;			//class object created
-			int port=atoi(argv[2]);		//port number 
-			string ip =argv[1];		//ip address
-			s1.create_socket();		//socket creation
-			s1.bind_listen();		//bind listen to the client
-			s1.serv_select(port,ip);	//check if the sockets are ready to read
+			Server *s1=new Server(atoi(argv[2]),argv[1]);			//class object created
+			//int port=atoi(argv[2]);		//port number 
+			//string ip =argv[1];		//ip address
+			s1->create_socket();		//socket creation
+			s1->bind_listen();		//bind listen to the client
+			s1->serv_select();	//check if the sockets are ready to read
 		}
 	}
 	catch(const char* str) {

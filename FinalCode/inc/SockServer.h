@@ -26,7 +26,7 @@ class Server{
 	private:
 		int sockfd;
 		int newsockfd;
-		int protno,i;
+		int portno,i;
 		string ipaddr;
 		struct sockaddr_in server_addr;
 		struct sockaddr_in client_addr;
@@ -37,14 +37,11 @@ class Server{
 		int readVal;
 		vector <int> vs_csock;
 		char buff[MAX_BUF];
-		//create master socket
 		fd_set master;
-		// set of sock_desc...
 		fd_set readfds;
 		int socketCount=0;
 	public:
-		Server() { protno = 8080; ipaddr = "0.0.0.0"; }
-		Server(int _pno, string _ip) { protno = _pno; ipaddr = _ip; }
+		Server(int _pno, string _ip) { portno = _pno; ipaddr = _ip; }
 		void create_socket();
 		void bind_listen();
 		int acceptclient(int);
@@ -52,7 +49,7 @@ class Server{
 		int getServSockfd() { return sockfd; }
 		struct sockaddr_in getClientAddr(){ return client_addr; }
 		socklen_t getCAddrlen() { return len; }
-		void serv_select(int,string);
+		void serv_select();
 		void createfds();
 		void countclient();
 		void handledisconnect();
@@ -60,5 +57,3 @@ class Server{
 		void registeruser_login();
 };
 
-int readData1(int&, char*);
-int writeData1(int&, char*);
