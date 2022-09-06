@@ -1,5 +1,5 @@
 #include <SockClient.h>
-#include<details.h>
+#include <details.h>
 //creates client sockets
 void Client::Create_Socket()
 {
@@ -77,15 +77,3 @@ void SendData(int clientSocketFd, int flags)
       }
    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
