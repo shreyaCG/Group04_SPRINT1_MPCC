@@ -28,7 +28,10 @@ void myClient::connect_client()
 		exit(EXIT_FAILURE);
 	}
 	cout<<"[+] CLIENT CONNECTED TO THE SERVER"<<endl;
-	        while(1){
+}    
+void myClient::send_message()
+{	
+		while(1){
 
 		char buf[BSIZE] = {'\0',};
 		read(sockfd, buf, BSIZE);
@@ -39,7 +42,7 @@ void myClient::connect_client()
 	cout<<"Enter a message: ";
 	fgets(buf, sizeof(buf),stdin);
 	write(sockfd, buf, strlen(buf));
-	cout<<"Data sent"<<buf<<endl;
+	cout<<"Data sent "<<buf<<endl;
 		}
 	close(sockfd);
 }

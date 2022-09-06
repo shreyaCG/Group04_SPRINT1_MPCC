@@ -48,21 +48,21 @@ void myServer::accept_client()
 //	int i, sd, client_socket[30];
 
 	fd_set master;
-	fd_set slave;
+	
 //	for(;;)
 //	{
 //	                     
 	//	int ready_fd = select(MAX, &master, nullptr, nullptr, nullptr);
 	//	if(FD_ISSET(sockfd, &master)){
 			while(1){
-				FD_ZERO(&slave);
+				
 				FD_ZERO(&master);
 				FD_SET(sockfd , &master);
-				FD_SET(sockfd , &slave);
+				
         			MAX = sockfd;
 				//FD_SET(server_listen, &master);
 				
-				for(i=0;i<max_clients;i++)
+			/*	for(i=0;i<max_clients;i++)
 				{
 					sd = client_socket[i];
 					if(sd>0){
@@ -72,8 +72,8 @@ void myServer::accept_client()
 							MAX = sd;
 						}
 					
-				}
-				int activity = select(MAX +1 , &master, &slave, NULL, NULL);
+				}*/
+				int activity = select(MAX +1 , &master, NULL, NULL, NULL);
 				if(activity<0){
 					perror("SELECT ERROR");
 					exit(EXIT_FAILURE);
@@ -89,19 +89,19 @@ void myServer::accept_client()
 				cout<<"Welcome sent"<<endl;
 				//bzero(message, strlen(message));
 
-
-                               for(i=0;i<max_clients;i++){
+                          
+                          /*     for(i=0;i<max_clients;i++){
 					if(client_socket[i]==0){
 						client_socket[i]=new_socket;
-						cout<<"Adding sockets"<<endl;
+						cout<<"Adding sockets"<<i<<endl;
 						break;
 					}
-				}
+				}*/
 				
 			       
-                               if(FD_ISSET(sockfd, &slave)){
-				       while(1){
-				       }
+                               
+				      
+				       
 			       }
 			       char buf[BSIZE] ={'\0',};
 			      // memset(buf,0,sizeof(buf));
@@ -111,7 +111,7 @@ void myServer::accept_client()
 			      // close(new_sockfd);
 				}
 			}
-}
+
 			
 		/*	for(i=0;i<max_clients;i++){
 				sd = client_socket[i];

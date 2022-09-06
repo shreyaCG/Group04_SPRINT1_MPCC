@@ -1,9 +1,5 @@
 #include <SockServer.h>
 #include<details.h>
-
-details::details()
-{
-}
 //Creation of Server Socket
 void Server::create_socket()
 {
@@ -19,8 +15,7 @@ void Server::create_socket()
 	{
 		perror("setsockopt() error");
 		exit(EXIT_FAILURE);
-	}
-	
+	}	
 	cout<<"[+] Server Socket Created"<<endl;
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
@@ -52,7 +47,7 @@ int Server::acceptclient(int sfd)
 		perror("accept() failed");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+]Server accept the client"<<endl;
+	cout<<"[+]Server accept the client\n"<<endl;
 	return newsockfd;
 }
 //close the server socket
@@ -79,46 +74,34 @@ int writeData1(int &sfd, char*buff)
 	memset(buff, 0, MAX_BUF);
 	return ret;
 }
-/*void encrypt_message(string encrypt)
+//store the registered users in a file
+void Server::handleusers(char* buff,char* user)
 {
-	char key = '1';
-	size_t str_len = encrypt.size();
-	for (int i=0; i<str_len; i++){
-		encrypt[i] = encrypt[i] ^ key;
-	}
-	return encrypt;
-}*/
-void details::validate(details &d1)
-{
-
-	string user=d1.getUID();
-	string pass=d1.getPassword();
-//	regex regx("[@_!#$%^&*()<>?/|}{~:]");
-//	m1.insert({user,pass});
-//	for(const auto&i : m1){
-	//	cout<<i.first<<" "<<i.second<<endl;
-//	}
-
-/*	if(!(user>='A' && user<='Z') || !(user>='a' && user<='z') || !(regex_search(user, regx) == 0 ))
+	fstream fs;
+	if(buff != NULL)
 	{
-		if((pass.find("@"))||(user>='a' && user<='z'))
+		fs.open("registered.txt", ios::in | ios::app);
+		fs<<buff<<endl;
+		fs.close();
+	}
+	int lines=0;
+	string line;
+	string usr(user);
+	fs.open("registered.txt",ios::in);
+	if(fs.is_open())
+	{
+		while(getline(fs,line))
 		{
-			fstream fs;
-			fs.open("registered.txt", ios::in | ios::app);
-			fs<<user<<" ";
-			fs<<pass<<endl;
-			fs.close();
-			
+			lines++;		
+			if(line.find(usr,0)!=string::npos)
+			{
+				cout<<usr<<" exists "<<endl;
+		
+			}
 		}
 	}
-	else 
-	{
-		cout<<"Invalid user and password"<<endl;
-	}*/
-	
+	fs.close();
 }
-
-
 //create fd sets
 void Server::createfds()
 {
@@ -130,7 +113,7 @@ void Server::createfds()
 	max_sd = serverfd;
 }
 //check the number of clients connected and the maximum sockets created
-void Server::countclient()		//details &d1)
+void Server::countclient()
 {
 	for(int i=0;i<max_clients;i++)
 	{
@@ -144,37 +127,111 @@ void Server::countclient()		//details &d1)
 	}
 }
 //check if the fd is set
-void Server::checkfdset()
+void Server::registeruser_login()
 {
-	details d1;
-	//details d2;
+	details *d1=new details;
+	details d2;
+	int flag=0;
+	char buf[MAX_BUF];
 	if(FD_ISSET(serverfd, &readfds))
 	{		
-		int newSockfd = acceptclient(serverfd);		
-		//char user[MAX_BUF];
-		//writeData1(newSockfd,buff );
-		if(recv(newSockfd,&d1,sizeof(details),0)<0)
+		int newSockfd = acceptclient(serverfd);	
+		int recvopt=recv(newSockfd,buf,MAX_BUF,0);
+		//check whether client wants to login or register
+		switch(atoi(buf))
 		{
-			perror("recieve error");
+			//register and login
+			case 1:
+				if(send(newSockfd,"register",9,0)<0)
+				{
+					perror("send error");
+					exit(EXIT_FAILURE);
+				}
+				bzero(d1,sizeof(details));
+				recv(newSockfd,d1,sizeof(details),0);
+				d1->database(d1);
+				send(newSockfd,"success",8,0);			
+				if((recv(newSockfd,buf,MAX_BUF,0))==atoi("2"))
+				{
+					send(newSockfd,"login",6,0);
+
+					bzero(d1,sizeof(details));
+					recv(newSockfd,d1,sizeof(details),0);
+					fstream fs;
+					string line;
+					fs.open("registered.txt");
+					if(fs.is_open())
+					{
+						while(!fs.eof())
+						{
+							size_t size=sizeof(details);	
+							fs.read(reinterpret_cast<char*>(&d2),size);
+							if((strcmp(d2.getUID(),d1->getUID()))==0)
+							{
+								if((strcmp(d2.getPassword(),d1->getPassword()))==0)
+								{
+								flag=1;
+								break;
+								}
+							}
+						}
+						if(flag==1)
+						{
+							send(newSockfd,"success",8,0);
+						}
+						else
+						{
+							send(newSockfd,"failure",8,0);
+						}
+					}
+					fs.close();
+				}
+				break;
+			//login
+			case 2:
+				send(newSockfd,"login",8,0);
+				bzero(d1,sizeof(details));
+				recv(newSockfd,d1,sizeof(details),0);
+				fstream fs;
+				string line;
+				fs.open("registered.txt");
+				if(fs.is_open())
+				{
+					while(!fs.eof())
+					{
+						size_t size=sizeof(details);	
+						fs.read(reinterpret_cast<char*>(&d2),size);
+						if((strcmp(d2.getUID(),d1->getUID()))==0)
+						{
+							if((strcmp(d2.getPassword(),d1->getPassword()))==0)
+							{
+								flag=1;
+								break;
+							}
+						}
+					}
+					if(flag==1)
+					{
+						cout<<"The user is registered"<<endl;
+						send(newSockfd,"success",8,0);
+					}
+					else
+					{
+						cout<<"The User is not registered"<<endl;
+						send(newSockfd,"failure",8,0);
+					}
+				}
+				fs.close();
+				
+				break;
 		}
-		cout<<"received obj"<<endl;
-		d1.getdetails();
-	//	d1.handleusers(d1);
-	//	d1.validate(d1);
-		
-	
-//		multimap<string,string>m1;
-	//	d1.displaymap();
-//		cout<<d1.getUID()<<endl;
-//		cout<<d1.getPassword()<<endl;
-		//d2=d2.getdetails(d1);
-		memset(buff,0,MAX_BUF);
+		//add the clients connecting to the server in a vector
 		for(int i=0;i<max_clients;i++)
 		{
 			if(client_sock[i] == 0)
 			{
 				client_sock[i] = newSockfd;
-				cout<<"Adding the client sockfds to the list"<<endl;
+				cout<<"\nAdding the client sockfds to the list"<<endl;
 				vs_csock.push_back(newSockfd);
 				break;
 			}
@@ -186,10 +243,9 @@ void Server::handledisconnect()
 {
 	socklen_t len = sizeof(getClientAddr());
 	uint16_t port;
-//	struct sockaddr_in* addressInternet;
 	struct sockaddr_in address = getClientAddr();
 	getpeername(sd,(struct sockaddr*)&address, &len);						
-	cout<<"Client disconnected with IP: "<<inet_ntoa(address.sin_addr);
+	cout<<"\nClient disconnected with IP: "<<inet_ntoa(address.sin_addr);
 	cout<<" and with port number: "<<ntohs(address.sin_port)<<endl;
 	cout<<"Closing Socket with port  "<<ntohs(address.sin_port)<<endl;
 	close(sd);
@@ -204,8 +260,8 @@ void Server::broadcast_msg()
 		if(sock != sd && sock != serverfd && sock !=0)
 		{
 			char tbuff[MAX_BUF] = {'\0',};
-			strcpy(tbuff, "Socket # ");
-			string temp_str=to_string(sd); 
+			strcpy(tbuff, "User  ");
+			string temp_str=to_string(i+1);
 			strcat(tbuff,temp_str.c_str());
 			strcat(tbuff,": ");
 			strcat(tbuff,buff);
@@ -214,7 +270,7 @@ void Server::broadcast_msg()
 
 		}
 	}
-}		
+}	
 //checks if the socket is ready for reading or writing
 void Server :: serv_select(int port,string ip)
 {
@@ -232,13 +288,8 @@ void Server :: serv_select(int port,string ip)
 		countclient();
 		//check if the socket is ready
 		int socketCount = select(max_sd+1,&readfds,NULL,NULL,NULL);
-		
-		if((socketCount <0) && (errno != EINTR))
-		{
-			cout<<"select error"<<endl;
-		}
 		//check if fds are set
-		checkfdset();	
+		registeruser_login();	
 		for(int i=0;i<max_clients;i++)
 		{
 			sd  = client_sock[i];
@@ -270,10 +321,4 @@ void Server :: serv_select(int port,string ip)
 	}// end of while loop
 	
 	servClose(getServSockfd());
-}
-Server::~Server()
-{
-}
-details::~details()
-{
 }

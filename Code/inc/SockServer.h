@@ -17,7 +17,7 @@
 #include <vector>
 #include<fstream>
 #define MAX_BUF 4096
-
+#include<details.h>
 using namespace std;
 
 
@@ -30,7 +30,7 @@ class Server{
 		struct sockaddr_in server_addr;
 		struct sockaddr_in client_addr;
 		socklen_t len;
-		int csockfd, client_sock[30];	
+		int client_sock[30];	
 		int max_clients = 30;
 		int serverfd, sd, max_sd;
 		int readVal;
@@ -52,13 +52,12 @@ class Server{
 		struct sockaddr_in getClientAddr(){ return client_addr; }
 		socklen_t getCAddrlen() { return len; }
 		void serv_select(int,string);
-		//void handleusers(details &);
+		void handleusers(char*,char*);
 		void createfds();
 		void countclient();
-		void checkfdset();
 		void handledisconnect();
 		void broadcast_msg();
-		~Server();
+		void registeruser_login();
 };
 
 int readData1(int&, char*);

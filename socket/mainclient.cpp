@@ -8,5 +8,6 @@ int main(int argc, char *argv[])
 
 	mc.create_socket(ip,port);
 	mc.connect_client();
+	mc.send_message();
 	return 0;
 }

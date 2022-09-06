@@ -1,9 +1,10 @@
 #pragma once
 #include<iostream>
 #include<cstring>
-#include<map>
-#include<list>
-#include<fstream>
+#include<string.h>
+#include<string>
+#include<ctype.h>
+//#include<cstring>
 #include<bits/stdc++.h>
 using namespace std;
 class details
@@ -11,20 +12,16 @@ class details
 	private:
 		char uid[20];
 		char password[20];
-	//	map<string,string>m1;
-		list<string>list1;
 	public:
-		details();
-		void setdetails();
+		void* setdetails();
 		char* getUID(){ return uid;}
 		char* getPassword(){ return password;}
 		void getdetails(){
-		       	cout<<uid<<endl;
+			cout<<uid<<endl;
 			cout<<password<<endl;}
-		void handleusers(details &);
-		void displaymap();
-		void setpass();
-		void validate(details &);		
-		~details();
+		char* validate(details *d);
+		void* choose(int);
+		void* registeruser();
+		void* loginuser();
+		void database(details *);
 };
-

@@ -21,7 +21,7 @@ class myClient
 		void create_socket(string, int);
 		void connect_client();
 		//void receive_message();
-		//void send_message();
+		void send_message();
 		~myClient();
 	private:
 		int sockfd, client_connect;
