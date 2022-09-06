@@ -1,7 +1,7 @@
 #include <cppunit/config/SourcePrefix.h>
 #include <string>
 #include<algorithm>
-#include "client.h"
+#include "details.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( details );
 
