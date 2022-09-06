@@ -1,5 +1,5 @@
-#include <SockServer.h>
-#include<details.h>
+#include "SockServer.h"
+#include "details.h"
 //Creation of Server Socket
 void Server::create_socket()
 {

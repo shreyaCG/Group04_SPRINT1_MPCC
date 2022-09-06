@@ -1,5 +1,5 @@
-#include <SockServer.h>
-#include<details.h>
+#include "SockServer.h"
+#include "details.h"
 //take command line arguments for ip and port number
 int main(int argc, char *argv[])
 {

@@ -1,4 +1,4 @@
-#include<details.h>
+#include "details.h"
 void* details::setdetails()
 {
 	cout<<"Enter UserID: ";
@@ -42,20 +42,7 @@ void details::database(details *d1)
 	fs.write(reinterpret_cast<const char*>(d1),size);
 	fs.close();
 }
-bool details::validate(details* d1)
+/*char* details::validate(details *d1)
 {
-	string userID=d1->getUID();
-	string Pass=d1->getPassword();
-	if(userID.find("#") || userID.find("!") || userID.find("*"))
-	{
-		if(Pass.find("%") || Pass.find("$") || Pass.find("@"))
-		{
-			return false;
-		}
-	}
-	else
-	{
-		return true;
-	}
-}
+}*/
 

@@ -1,59 +1,9 @@
-#include <SockClient.h>
+#include "SockClient.h"
 #include <unistd.h>
-#include<details.h>
+#include"details.h"
 //take port number and ip from command line
 int main(int argc, char *argv[])
 {
-<<<<<<< HEAD
-	int newfd, flags=0,option;
-	//allocate dynamic memory
-	Client *S = new Client(atoi(argv[2]), argv[1]);
-	details *d;
-	char buf[1024];
-	void *buff;
-	//details *d1=new details;
-	S->Create_Socket();//connect server to the client
-	S->ConnectClient();
-	newfd = S->getCliSockfd();//get client socket
-	cout<<"Do you want to register or login?"<<endl;
-	cout<<"Enter 1 to Register"<<endl;
-	cout<<"      2 to login"<<endl;
-	cin>>option;
-	cout<<endl;
-	//Select option to either register or login
-	switch(option)
-	{
-		//to register and login
-		case 1:
-			send(newfd,"1",2,0);
-			recv(newfd,buf,sizeof(buf),0);
-			if(strcmp(buf,"register")==0)
-			{	
-				buff=d->choose(option);
-				d=(details *)buff;
-				send(newfd,d,sizeof(details),0);
-				memset(&buf,0,MAX_BUF);
-				
-			}
-			bool b=d->validate(d);
-			if(b==0)
-			{
-				cout<<"INVALID"<<endl;
-				break;
-			}
-			else
-			{
-				cout<<"VALID"<<endl;
-				break;
-			}
-			recv(newfd,buf,sizeof(buf),0);
-			if(strcmp(buf,"success")==0)
-			{
-				cout<<endl;
-				cout<<"Registration successfull"<<endl;
-			}
-			else
-=======
 	//system("clear");
 	try {
 		if(argc<3){
@@ -79,7 +29,6 @@ int main(int argc, char *argv[])
 			
 			//Select option to either register or login
 			switch(option)
->>>>>>> 115a509bf037d1a29b409ef4211a2b14fad19078
 			{
 				//to register and login
 				case 1:
