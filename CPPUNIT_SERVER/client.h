@@ -1,26 +1,32 @@
 #pragma once
 
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
-#include <thread>
-#include <vector>
 #include <stdio.h>
 #include <unistd.h>
-#include <algorithm>
-#include <sys/types.h>
 #include <arpa/inet.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include <thread>
+#include <vector>
+#include <algorithm>
 #include <cppunit/extensions/HelperMacros.h>
 
 using namespace std;
 
+
+
+
 class details : public CPPUNIT_NS::TestFixture
 {
+<<<<<<< HEAD:cppunit/client.h
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> f06fcb491fcd1729d8c6eb5a0b39b3eb9d03b79e:CPPUNIT_SERVER/client.h
 	CPPUNIT_TEST_SUITE( details );
 	CPPUNIT_TEST( getUID_UT_sunny);
 	CPPUNIT_TEST( getPassword_UT_rainy );
@@ -48,6 +54,7 @@ public:
 	void getUID_UT_rainy();
 	
 
+<<<<<<< HEAD:cppunit/client.h
 =======
 >>>>>>> 7f85fadcc51a8ce184d60bb8b055a751428ef329
 	CPPUNIT_TEST_SUITE(details);
@@ -77,4 +84,6 @@ public:
 =======
 >>>>>>> 115a509bf037d1a29b409ef4211a2b14fad19078
 >>>>>>> 7f85fadcc51a8ce184d60bb8b055a751428ef329
+=======
+>>>>>>> f06fcb491fcd1729d8c6eb5a0b39b3eb9d03b79e:CPPUNIT_SERVER/client.h
 };

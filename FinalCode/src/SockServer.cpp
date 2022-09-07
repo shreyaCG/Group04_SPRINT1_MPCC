@@ -14,12 +14,13 @@ void Server::create_socket()
 	{
 		perror("setsockopt() error");
 		exit(EXIT_FAILURE);
-	}	
-	cout<<"[+] Server Socket Created"<<endl;
+	}
+	logger("Info log:: [+] Server Socket Created");
+	//cout<<"[+] Server Socket Created"<<endl;
 
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(protno);
+	server_addr.sin_port = htons(portno);
 	server_addr.sin_addr.s_addr = inet_addr((const char*)ipaddr.c_str());
 }
 
@@ -29,16 +30,16 @@ void Server::bind_listen()
 	int retbind = bind(sockfd,(struct  sockaddr*)&server_addr,sizeof(server_addr));
 	if(retbind<0)
 	{
-		perror("bind() error");
+		logger("Fatal log:: bind() error");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Server bind to port no:"<<protno<<endl;
+	cout<<"[+] Server bind to port no:"<<portno<<endl;
 	if(listen(sockfd, 5)<0)
 	{
 		perror("listen() error");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Server listening to the clients"<<endl;
+	logger("Info log:: [+] Server listening to the clients");
 }
 
 //Server accepts the client
@@ -51,7 +52,7 @@ int Server::acceptclient(int sfd)
 		perror("accept() failed");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Server accepts the client"<<endl;
+	logger("Info log:: [+] Server accepts the client");
 	return newsockfd;
 }
 
@@ -60,31 +61,11 @@ void Server::servClose(int sfd)
 {
 	close(sfd);
 }
-
-//function to recieve the message from client
-int readData1(int &sfd, char*buff)
-{
-	
-	memset(buff, 0, MAX_BUF);
-	int ret = read(sfd,buff,MAX_BUF);	
-	return ret;
-}
-
-//function to send the message to the client
-int writeData1(int &sfd, char*buff)
-{
-	memset(buff, 0, MAX_BUF);
-	strcpy(buff,"Welcome!!!");
-	int ret = write(sfd,buff,strlen(buff));
-	memset(buff, 0, MAX_BUF);
-	return ret;
-}
-
 //create fd sets
 void Server::createfds()
 {
 	readfds = master;
-	max_sd = serverfd;
+	//max_sd = serverfd;
 	//clear the sock set fds
 	FD_ZERO(&readfds);
 	FD_SET(serverfd,&readfds);
@@ -105,7 +86,20 @@ void Server::countclient()
 			max_sd = sd;
 	}
 }
+int Server::logger(char* msg)
+{
+	FILE *logfile;
+	char filename[100]="data.log";
+	time_t ltime=time(NULL);
+	struct tm res;
+	char TIMESTAMP[32];
+	localtime_r(&ltime,&res);
+	asctime_r(&res,TIMESTAMP);
 
+	logfile=fopen(filename,"a+");
+	fprintf(logfile,"\n~~%s\t%s\n-------------\n",TIMESTAMP,msg);
+	fclose(logfile);
+}
 //check if the fd is set
 void Server::registeruser_login()
 {
@@ -250,7 +244,7 @@ void Server::broadcast_msg()
 	}
 }	
 //checks if the socket is ready for reading or writing
-void Server :: serv_select(int port,string ip)
+void Server :: serv_select()
 {
 	for(int i=0;i<max_clients;i++)
 	{

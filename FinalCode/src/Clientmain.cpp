@@ -1,10 +1,12 @@
 #include <SockClient.h>
 #include <unistd.h>
-#include<details.h>
+#include <details.h>
+
 //take port number and ip from command line
+
 int main(int argc, char *argv[])
 {
-	//system("clear");
+
 	try {
 		if(argc<3){
                         throw("Insufficient arguments\nUsage: <IP Address> <Port Number>");
@@ -15,7 +17,7 @@ int main(int argc, char *argv[])
 			//allocate dynamic memory
 			Client *S = new Client(atoi(argv[2]), argv[1]);
 			details *d;
-			char buf[1024];
+			char buf[MAX_BUF];
 			void *buff;
 			
 			S->Create_Socket();//connect server to the client
@@ -26,7 +28,7 @@ int main(int argc, char *argv[])
 			cout<<"Enter 2 to login"<<endl;
 			cin>>option;
 			cout<<endl;
-			
+
 			//Select option to either register or login
 			switch(option)
 			{
@@ -66,14 +68,14 @@ int main(int argc, char *argv[])
 						if(strcmp(buf,"success")==0)
 						{
 							cout<<endl;
-							cout<<"login successful"<<endl;
-							cout<<"You can now continue to chat with other users"<<endl;
+							cout<<"Info log:: login successful"<<endl;
+							cout<<"Info log:: You can now continue to chat with other users"<<endl;
 				
 						}
 						if(strcmp(buf,"failure")==0)
 						{
 							cout<<"\nlogin unsuccessful"<<endl;
-							cout<<"Terminated, Please Register to login"<<endl;
+							cout<<"Session Terminated"<<endl;
 							kill(getpid(),SIGINT);
 						}
 					}
@@ -92,7 +94,7 @@ int main(int argc, char *argv[])
 						recv(newfd,buf,sizeof(buf),0);
 						if(strcmp(buf,"success")==0)
 						{
-							cout<<"login successful"<<endl;
+							cout<<"Login successful"<<endl;
 							cout<<"You can now continue to chat with other users"<<endl;
 						}
 						if(strcmp(buf,"failure")==0)

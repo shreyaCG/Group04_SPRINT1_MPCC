@@ -7,13 +7,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/wait.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <thread>
 #include <string>
-#include <future>
-#include<signal.h>
+#include <signal.h>
 #define MAX_BUF 4096
 
 using namespace std;
@@ -33,14 +31,13 @@ class Client{
 		void Create_Socket();
 		void ConnectClient();
 		void cliClose(int);
+		int logger(char*);
 		int getCliSockfd() { return sockfd; }
 		struct sockaddr_in getClientAddr(){ return client_addr; }
 		socklen_t getCAddrlen() { return len; }
 		void choose(int);	
 };
 
-void ReadData(int&, char*);
-void WriteData(int&, char*);
 //function to recieve the data from server
 void RecvData(int clientSocketFd, int flags);
 //function to send data to the server

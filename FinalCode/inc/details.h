@@ -1,4 +1,5 @@
 #pragma once
+
 #include<iostream>
 #include<cstring>
 #include<string.h>
@@ -19,8 +20,8 @@ class details
 		void getdetails(){
 			cout<<uid<<endl;
 			cout<<password<<endl;}
-		char* validate(details *d);
 		void* choose(int);
+		int logger(char*);
 		void* registeruser();
 		void* loginuser();
 		void database(details *);

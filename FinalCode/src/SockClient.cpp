@@ -51,13 +51,14 @@ void RecvData(int clientSocketFd, int flags)
       memset(&rcvDataBuf, 0, MAX_BUF);
       dataRecvd = recv(clientSocketFd, rcvDataBuf, MAX_BUF, flags);
       // if chatroom is full then exit
-      if(!strcmp(rcvDataBuf,"#FULL"))
+   /*   if(!strcmp(rcvDataBuf,"#FULL"))
       {
          cout<<"[-] Chatroom is full. Exiting"<<endl;
          close(clientSocketFd);
          exit(1);
-      }
-      if(dataRecvd>0) cout<<rcvDataBuf<<endl;
+      }*/
+      if(dataRecvd>0) 
+	      cout<<rcvDataBuf<<endl;
    }
 }
 
