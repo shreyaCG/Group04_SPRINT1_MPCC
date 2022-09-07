@@ -1,0 +1,127 @@
+        -:    0:Source:Clientmain.cpp
+        -:    1:#include "SockClient.h"
+        -:    2:#include <unistd.h>
+        -:    3:#include"details.h"
+        -:    4://take port number and ip from command line
+        2:    5:int main(int argc, char *argv[])
+        -:    6:{
+        -:    7:	//system("clear");
+        -:    8:	try {
+        2:    9:		if(argc<3){
+    #####:   10:                        throw("Insufficient arguments\nUsage: <IP Address> <Port Number>");
+        -:   11:                }
+        -:   12:                else {
+        2:   13:			int newfd, flags=0,option;
+        -:   14:			
+        -:   15:			//allocate dynamic memory
+        2:   16:			Client *S = new Client(atoi(argv[2]), argv[1]);
+        -:   17:			details *d;
+        -:   18:			char buf[1024];
+        -:   19:			void *buff;
+        -:   20:			
+        2:   21:			S->Create_Socket();//connect server to the client
+        2:   22:			S->ConnectClient();
+        2:   23:			newfd = S->getCliSockfd();//get client socket
+        2:   24:			cout<<"Do you want to register or login?"<<endl;
+        2:   25:			cout<<"Enter 1 to Register"<<endl;
+        2:   26:			cout<<"Enter 2 to login"<<endl;
+        2:   27:			cin>>option;
+        2:   28:			cout<<endl;
+        -:   29:			
+        -:   30:			//Select option to either register or login
+        2:   31:			switch(option)
+        -:   32:			{
+        -:   33:				//to register and login
+        2:   34:				case 1:
+        2:   35:					send(newfd,"1",2,0);
+        2:   36:					recv(newfd,buf,sizeof(buf),0);
+        2:   37:					if(strcmp(buf,"register")==0)
+        -:   38:					{	
+        2:   39:						buff=d->choose(option);
+        2:   40:						d=(details *)buff;
+        2:   41:						send(newfd,d,sizeof(details),0);
+        2:   42:						memset(&buf,0,MAX_BUF);
+        -:   43:					}
+        2:   44:					recv(newfd,buf,sizeof(buf),0);
+        2:   45:					if(strcmp(buf,"success")==0)
+        -:   46:					{
+        2:   47:						cout<<endl;
+        2:   48:						cout<<"Registration successfull"<<endl;
+        -:   49:					}
+        -:   50:					else
+        -:   51:					{
+    #####:   52:						cout<<endl;
+    #####:   53:						cout<<"registration unsuccessful"<<endl;
+    #####:   54:						exit(0);
+        -:   55:					}
+        2:   56:					cout<<"You can now continue by logging in"<<endl;
+        2:   57:					send(newfd,"2",2,0);
+        2:   58:					recv(newfd,buf,sizeof(buf),0);	
+        2:   59:					if(strcmp(buf,"login")==0)
+        -:   60:					{
+        2:   61:						buff=d->choose(2);
+        2:   62:						d=(details *)buff;
+        2:   63:						send(newfd,d,sizeof(details),0);
+        2:   64:						memset(&buf,0,MAX_BUF);
+        2:   65:						recv(newfd,buf,sizeof(buf),0);
+        2:   66:						if(strcmp(buf,"success")==0)
+        -:   67:						{
+        2:   68:							cout<<endl;
+        2:   69:							cout<<"login successful"<<endl;
+        2:   70:							cout<<"You can now continue to chat with other users"<<endl;
+        -:   71:				
+        -:   72:						}
+        2:   73:						if(strcmp(buf,"failure")==0)
+        -:   74:						{
+    #####:   75:							cout<<"\nlogin unsuccessful"<<endl;
+    #####:   76:							cout<<"Terminated, Please Register to login"<<endl;
+    #####:   77:							kill(getpid(),SIGINT);
+        -:   78:						}
+        -:   79:					}
+        2:   80:					break;
+        -:   81:					
+        -:   82:				//login
+    #####:   83:				case 2:
+    #####:   84:					send(newfd,"2",2,0);
+    #####:   85:					recv(newfd,buf,sizeof(buf),0);	
+    #####:   86:					if(strcmp(buf,"login")==0)
+        -:   87:					{
+    #####:   88:						buff=d->choose(2);
+    #####:   89:						d=(details *)buff;
+    #####:   90:						send(newfd,d,sizeof(details),0);
+    #####:   91:						memset(&buf,0,MAX_BUF);
+    #####:   92:						recv(newfd,buf,sizeof(buf),0);
+    #####:   93:						if(strcmp(buf,"success")==0)
+        -:   94:						{
+    #####:   95:							cout<<"login successful"<<endl;
+    #####:   96:							cout<<"You can now continue to chat with other users"<<endl;
+        -:   97:						}
+    #####:   98:						if(strcmp(buf,"failure")==0)
+        -:   99:						{
+    #####:  100:							cout<<"\nLogin Unsuccessful"<<endl;
+    #####:  101:							cout<<"Terminated, Please Register to login"<<endl;
+    #####:  102:							kill(getpid(),SIGINT);
+        -:  103:						}
+        -:  104:					}
+    #####:  105:					break;
+        -:  106:			}
+        -:  107:			
+        -:  108:			//thread recieve any mesage sent by server 
+       2*:  109:			thread readmsg(RecvData, newfd, flags); 	
+        -:  110:			
+        -:  111:			//thread to send messages to the server
+       2*:  112:			thread writemsg(SendData, newfd, flags); 
+        -:  113:	
+        -:  114:			//stop the threads
+        2:  115:			readmsg.join();
+    #####:  116:			writemsg.join();
+        -:  117:			
+        -:  118:			//close client socket
+    #####:  119:			S->cliClose(S->getCliSockfd());
+        -:  120:		}
+        -:  121:	}
+    =====:  122:	catch(const char* str) {
+    =====:  123:		cout<<"Exception: "<<str<<endl;
+        -:  124:	}
+    #####:  125:	return 0;
+        -:  126:}
