@@ -1,0 +1,25 @@
+        -:    0:Source:ServerMain.cpp
+        -:    1:#include "SockServer.h"
+        -:    2:#include "details.h"
+        -:    3://take command line arguments for ip and port number
+    #####:    4:int main(int argc, char *argv[])
+        -:    5:{
+        -:    6:	try{
+    #####:    7:		if(argc<3){
+    #####:    8:			throw("Insufficient arguments\nUsage: <IP Address> <Port Number>");
+        -:    9:		}
+        -:   10:		else {
+    #####:   11:			Server s1;			//class object created
+    #####:   12:			int port=atoi(argv[2]);		//port number 
+    #####:   13:			string ip =argv[1];		//ip address
+    #####:   14:			s1.create_socket();		//socket creation
+    #####:   15:			s1.bind_listen();		//bind listen to the client
+    #####:   16:			s1.serv_select(port,ip);	//check if the sockets are ready to read
+        -:   17:			//file.close();
+        -:   18:		}
+        -:   19:	}
+    =====:   20:	catch(const char* str) {
+    =====:   21:		cout<<"Exception: "<<str<<endl;
+        -:   22:	}
+    #####:   23:	return 0;
+        -:   24:}

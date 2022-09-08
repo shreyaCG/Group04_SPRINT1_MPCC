@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 						cout<<"registration unsuccessful"<<endl;
 						exit(0);
 					}
-					cout<<"You can now continue by logging in"<<endl;
+					cout<<"You can now continue by log in"<<endl;
 					send(newfd,"2",2,0);
 					recv(newfd,buf,sizeof(buf),0);	
 					if(strcmp(buf,"login")==0)
@@ -66,13 +66,13 @@ int main(int argc, char *argv[])
 						if(strcmp(buf,"success")==0)
 						{
 							cout<<endl;
-							cout<<"login successful"<<endl;
+							cout<<"Login successful"<<endl;
 							cout<<"You can now continue to chat with other users"<<endl;
 				
 						}
 						if(strcmp(buf,"failure")==0)
 						{
-							cout<<"\nlogin unsuccessful"<<endl;
+							cout<<"\nLogin unsuccessful"<<endl;
 							cout<<"Session Terminated"<<endl;
 							kill(getpid(),SIGINT);
 						}
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 						recv(newfd,buf,sizeof(buf),0);
 						if(strcmp(buf,"success")==0)
 						{
-							cout<<"login successful"<<endl;
+							cout<<"Login successful"<<endl;
 							cout<<"You can now continue to chat with other users"<<endl;
 						}
 						if(strcmp(buf,"failure")==0)

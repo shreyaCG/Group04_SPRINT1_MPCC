@@ -205,9 +205,9 @@ void Server::handledisconnect()
 	uint16_t port;
 	struct sockaddr_in address = getClientAddr();
 	getpeername(sd,(struct sockaddr*)&address, &len);						
-	cout<<"[+] Client disconnected with IP: "<<inet_ntoa(address.sin_addr);
+	cout<<"[-] Client disconnected with IP: "<<inet_ntoa(address.sin_addr);
 	cout<<" and with port number: "<<ntohs(address.sin_port)<<endl;
-	cout<<"[+] Closing Socket with port  "<<ntohs(address.sin_port)<<endl;
+	cout<<"[-] Closing Socket with port  "<<ntohs(address.sin_port)<<endl;
 	close(sd);
 	client_sock[i] = 0;
 }
