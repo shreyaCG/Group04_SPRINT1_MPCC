@@ -10,17 +10,15 @@ int main(int argc, char *argv[])
                         throw("Insufficient arguments\nUsage: <IP Address> <Port Number>");
                 }
                 else {
-			system("clear");
-
-			int newfd, flags=0,option;
-
+			int new_Clientfd, flags=0,option;
+			
 			//allocate dynamic memory
-			Client *S = new Client(atoi(argv[2]), argv[1]);
+			Client *C = new Client(atoi(argv[2]), argv[1]);
 			details d;
 
-			S->Create_Socket();//connect server to the client
-			S->ConnectClient();
-			newfd = S->getCliSockfd();//get client socket
+			C->Create_Socket();//connect server to the client
+			C->ConnectClient();
+			new_Clientfd = C->getClientSockfd();//get client socket
 
 			char buf[MAX_BUF];
 			
@@ -35,23 +33,22 @@ int main(int argc, char *argv[])
 			{
 				//to register and login
 				case 1:
-					system("clear");
-					send(newfd,"1",2,0);
-					recv(newfd,buf,sizeof(buf),0);
+					send(new_Clientfd,"1",2,0);
+					recv(new_Clientfd,buf,sizeof(buf),0);
 					if(strcmp(buf,"register")==0)
 					{
 						d.setdetails();
 						string str = d.toString();
 						cout<<str<<endl;
-						send(newfd,str.c_str(),str.length(),0);
+						send(new_Clientfd,str.c_str(),str.length(),0);
 					}
 					memset(&buf,0,MAX_BUF);
-					recv(newfd,buf,sizeof(buf),0);
+					recv(new_Clientfd,buf,sizeof(buf),0);
 					if(strcmp(buf,"success")==0)
 					{
 						cout<<endl;
 						cout<<"Registration successfull"<<endl;
-						goto case 2;
+						exit(1);
 					}
 					else
 					{
@@ -62,21 +59,17 @@ int main(int argc, char *argv[])
 					break;	
 				//login
 				case 2:
-					system("clear");
-					send(newfd,"2",2,0);
-					recv(newfd,buf,sizeof(buf),0);	
+					send(new_Clientfd,"2",2,0);
+					recv(new_Clientfd,buf,sizeof(buf),0);	
 					if(strcmp(buf,"login")==0)
 					{
 						d.setdetails();
 						string str1 = d.toString();
 						cout<<str1<<endl;
-						send(newfd,str1.c_str(),str1.length(),0);
-
-						//d=(details *)buff;
-						//send(newfd,d,sizeof(details),0);
-						
+						send(new_Clientfd,str1.c_str(),str1.length(),0);
+		
 						memset(&buf,0,MAX_BUF);
-						recv(newfd,buf,sizeof(buf),0);
+						recv(new_Clientfd,buf,sizeof(buf),0);
 						if(strcmp(buf,"success")==0)
 						{
 							cout<<"login successful"<<endl;
@@ -86,7 +79,6 @@ int main(int argc, char *argv[])
 						{
 							cout<<"\nLogin Unsuccessful"<<endl;
 							cout<<"Terminated, Please Register to login"<<endl;
-							//kill(getpid(),SIGINT);
 							exit(0);
 						}
 					}
@@ -94,17 +86,17 @@ int main(int argc, char *argv[])
 			}
 			
 			//thread recieve any mesage sent by server 
-			thread readmsg(RecvData, newfd, flags); 	
+			thread readmsg(RecvData, new_Clientfd, flags); 	
 			
 			//thread to send messages to the server
-			thread writemsg(SendData, newfd, flags); 
+			thread writemsg(SendData, new_Clientfd, flags); 
 	
 			//stop the threads
 			readmsg.join();
 			writemsg.join();
 			
 			//close client socket
-			S->cliClose(S->getCliSockfd());
+			C->clientClose(C->getClientSockfd());
 		}
 	}
 	catch(const char* str) {

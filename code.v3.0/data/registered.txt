@@ -1,0 +1,10 @@
+123|shreya
+321|rajesh
+456|sneha
+890|nikhitha
+rajesh|123
+sneha|321
+rajesh|098
+sneha|890
+rajesh|hello
+321|rajeshs

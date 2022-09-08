@@ -11,9 +11,8 @@ int main(int argc, char *argv[])
                 }
                 else {
 			system("clear");
-
 			int newfd, flags=0,option;
-
+			
 			//allocate dynamic memory
 			Client *S = new Client(atoi(argv[2]), argv[1]);
 			details d;
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
 			switch(option)
 			{
 				//to register and login
-				case 1:
+				case 1: 
 					system("clear");
 					send(newfd,"1",2,0);
 					recv(newfd,buf,sizeof(buf),0);
@@ -51,7 +50,6 @@ int main(int argc, char *argv[])
 					{
 						cout<<endl;
 						cout<<"Registration successfull"<<endl;
-						goto case 2;
 					}
 					else
 					{
@@ -60,13 +58,15 @@ int main(int argc, char *argv[])
 						exit(0);
 					}
 					break;	
+				//	goto login_user;
 				//login
-				case 2:
+				case 2: login_user:
 					system("clear");
 					send(newfd,"2",2,0);
 					recv(newfd,buf,sizeof(buf),0);	
 					if(strcmp(buf,"login")==0)
 					{
+						cout<<"Enter credentials to login"<<endl;
 						d.setdetails();
 						string str1 = d.toString();
 						cout<<str1<<endl;
