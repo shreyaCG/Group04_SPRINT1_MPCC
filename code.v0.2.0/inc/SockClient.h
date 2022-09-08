@@ -36,7 +36,6 @@ class Client{
 		socklen_t getCAddrlen() { return len; }
 		void choose(int);	
 };
-
 //function to recieve the data from server
 void RecvData(int clientSocketFd, int flags);
 //function to send data to the server

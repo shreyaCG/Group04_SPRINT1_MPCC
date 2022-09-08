@@ -1,27 +1,34 @@
 #pragma once
 #include<iostream>
 #include<cstring>
-#include<string.h>
 #include<string>
+#include<sstream>
+#include<stdlib.h>
 #include<ctype.h>
-//#include<cstring>
 #include<bits/stdc++.h>
+
 using namespace std;
+
 class details
 {
 	private:
 		char uid[20];
 		char password[20];
+		vector<string> vstring;
+		ostringstream ss;
 	public:
-		void* setdetails();
+		//details(char* usr_id, char* pass_word) { strcpy(uid, usr_id), strcpy(password, pass_word); }
+		void setdetails();
+		//void registeruser();
+		//void loginuser();
+		//void choose(int);
+		void tokenid(string);
+		void database();
 		char* getUID(){ return uid;}
 		char* getPassword(){ return password;}
-		void getdetails(){
-			cout<<uid<<endl;
-			cout<<password<<endl;}
-		char* validate(details *d);
-		void* choose(int);
-		void* registeruser();
-		void* loginuser();
-		void database(details *);
+		void getdetails() { cout<<uid<<'\n'<<password<<endl; }	
+		string toString(){ 
+			ss<<this->getUID()<<"|"<<this->getPassword();	//<<"|";
+			return ss.str();
+		}
 };

@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 					else
 					{
 						cout<<endl;
-						cout<<"registration unsuccessful"<<endl;
+						cout<<"Registration unsuccessful"<<endl;
 						exit(0);
 					}
 					break;	
@@ -75,7 +75,8 @@ int main(int argc, char *argv[])
 						{
 							cout<<"\nLogin Unsuccessful"<<endl;
 							cout<<"Terminated, Please Register to login"<<endl;
-							kill(getpid(),SIGINT);
+							//kill(getpid(),SIGINT);
+							exit(0);
 						}
 					}
 					break;

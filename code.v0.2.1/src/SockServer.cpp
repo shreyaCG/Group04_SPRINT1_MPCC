@@ -119,7 +119,7 @@ void Server::registeruser_login(string &s,int &f)
 				recv(newSockfd,d1,sizeof(details),0);
 				fstream fs;
 				string line;
-				fs.open("registered.txt");
+				fs.open("data/registered.txt");
 				if(fs.is_open())
 				{
 					while(!fs.eof())
@@ -137,14 +137,14 @@ void Server::registeruser_login(string &s,int &f)
 					}
 					if(flag==1)
 					{
-						cout<<"[+] The user is registered"<<endl;
+						cout<<"[+] User is registered"<<endl;
 						s=d1->getUID();
 						f=1;
 						send(newSockfd,"success",8,0);
 					}
 					else
 					{
-						cout<<"[-] The User is not registered"<<endl;
+						cout<<"[-] User is not registered"<<endl;
 						send(newSockfd,"failure",8,0);
 					}
 				}

@@ -14,18 +14,19 @@ int main(int argc, char *argv[])
 			
 			//allocate dynamic memory
 			Client *S = new Client(atoi(argv[2]), argv[1]);
-			details *d;
-			char buf[MAX_BUF];
-			void *buff;
-			
+			details d;
+
 			S->Create_Socket();//connect server to the client
 			S->ConnectClient();
 			newfd = S->getCliSockfd();//get client socket
+
+			char buf[MAX_BUF];
+			
 			cout<<"Do you want to register or login?"<<endl;
-			cout<<"Enter 1 to Register"<<endl;
-			cout<<"Enter 2 to login"<<endl;
+			cout<<"\tEnter 1 to Register"<<endl;
+			cout<<"\tEnter 2 to login"<<endl;
+			cout<<"Choose your option: ";
 			cin>>option;
-			cout<<endl;
 			
 			//Select option to either register or login
 			switch(option)
@@ -35,12 +36,13 @@ int main(int argc, char *argv[])
 					send(newfd,"1",2,0);
 					recv(newfd,buf,sizeof(buf),0);
 					if(strcmp(buf,"register")==0)
-					{	
-						buff=d->choose(option);
-						d=(details *)buff;
-						send(newfd,d,sizeof(details),0);
-						memset(&buf,0,MAX_BUF);
+					{
+						d.setdetails();
+						string str = d.toString();
+						cout<<str<<endl;
+						send(newfd,str.c_str(),str.length(),0);
 					}
+					memset(&buf,0,MAX_BUF);
 					recv(newfd,buf,sizeof(buf),0);
 					if(strcmp(buf,"success")==0)
 					{
@@ -51,7 +53,7 @@ int main(int argc, char *argv[])
 					else
 					{
 						cout<<endl;
-						cout<<"registration unsuccessful"<<endl;
+						cout<<"Registration unsuccessful"<<endl;
 						exit(0);
 					}
 					break;	
@@ -61,9 +63,14 @@ int main(int argc, char *argv[])
 					recv(newfd,buf,sizeof(buf),0);	
 					if(strcmp(buf,"login")==0)
 					{
-						buff=d->choose(2);
-						d=(details *)buff;
+						d.setdetails();
+						string str1 = d.toString();
+						cout<<str1<<endl;
+						send(newfd,str1.c_str(),str1.length(),0);
+
+						/*d=(details *)buff;
 						send(newfd,d,sizeof(details),0);
+						
 						memset(&buf,0,MAX_BUF);
 						recv(newfd,buf,sizeof(buf),0);
 						if(strcmp(buf,"success")==0)
@@ -75,8 +82,9 @@ int main(int argc, char *argv[])
 						{
 							cout<<"\nLogin Unsuccessful"<<endl;
 							cout<<"Terminated, Please Register to login"<<endl;
-							kill(getpid(),SIGINT);
-						}
+							//kill(getpid(),SIGINT);
+							exit(0);
+						}*/
 					}
 					break;
 			}

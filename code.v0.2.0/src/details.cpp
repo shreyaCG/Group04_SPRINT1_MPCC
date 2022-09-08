@@ -1,45 +1,53 @@
 #include<details.h>
-void* details::setdetails()
+void details::setdetails()
 {
 	cout<<"Enter UserID: ";
 	cin>>uid;
 	cout<<"Enter Password: ";
 	cin>>password;
 }
-void* details::registeruser()
+/*void details::registeruser()
 {
-	details *d2=new details;
-	d2->setdetails();
-	return d2;
+	setdetails();
 }
-void* details::loginuser()
+void details::loginuser()
 {
-	details *d3=new details;
-	d3->setdetails();
-	return d3;
+	setdetails();
 }
-void* details:: choose(int option)
+void details:: choose(int option)
 {
-	void *buff;
 	switch(option)
 	{
 		case 1:
 			cout<<"Enter credentials to register"<<endl;
-			buff=registeruser();		
+			registeruser();		
 			break;
 		case 2:
 			cout<<"Enter the login credentials"<<endl;
-			buff=loginuser();										
+			loginuser();
+			break;
+		default:
+			cout<<"Exiting the Session"<<endl;
+			exit(0);
 	}
-	return buff;
 
-}
-void details::database(details *d1)
+}*/
+void details::tokenid(string data)
 {
-	fstream fs;
-	fs.open("registered.txt",ios::in | ios::app);
-	size_t size=sizeof(details);
-	fs.write(reinterpret_cast<const char*>(d1),size);
-	fs.close();
+	string middle;
+	stringstream check(data);
+	while(getline(check,middle,'|'))
+	{
+		vstring.push_back(middle);
+	}
 }
-
+void details::database()
+{
+	fstream file;
+	file.open("data/registered.txt", ios::in | ios::app);
+	for(int i=0;i<vstring.size();i++)
+	{
+		file<<vstring[i];
+	}
+	file.close();
+}

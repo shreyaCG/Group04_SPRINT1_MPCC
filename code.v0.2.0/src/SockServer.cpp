@@ -89,8 +89,10 @@ void Server::countclient()
 //check if the fd is set
 void Server::registeruser_login(string &s,int &f)
 {
-	details *d1=new details;
+	details d1;
 	details d2;
+	details *d3 = new details;
+	char user_data[MAX_BUF] = {'\0',}; 
 	int flag=0;
 	char buf[MAX_BUF];
 	if(FD_ISSET(serverfd, &readfds))
@@ -107,17 +109,21 @@ void Server::registeruser_login(string &s,int &f)
 					perror("send() error");
 					exit(EXIT_FAILURE);
 				}
-				bzero(d1,sizeof(details));
-				recv(newSockfd,d1,sizeof(details),0);
-				d1->database(d1);
+				recv(newSockfd,&user_data,sizeof(user_data),0);
+				cout<<user_data<<endl;
+				data = user_data;
+				d1.tokenid(data);
+				d1.database();
 				send(newSockfd,"success",8,0);
-				break;			
+				break;
 			//login
 			case 2:
 				send(newSockfd,"login",8,0);
-				bzero(d1,sizeof(details));
-				recv(newSockfd,d1,sizeof(details),0);
-				fstream fs;
+				//bzero(d1,sizeof(details));
+				recv(newSockfd,&user_data,sizeof(user_data),0);
+				cout<<user_data<<endl;
+
+				/*fstream fs;
 				string line;
 				fs.open("registered.txt");
 				if(fs.is_open())
@@ -148,7 +154,7 @@ void Server::registeruser_login(string &s,int &f)
 						send(newSockfd,"failure",8,0);
 					}
 				}
-				fs.close();
+				fs.close();*/
 				
 				break;
 		}
@@ -159,7 +165,7 @@ void Server::registeruser_login(string &s,int &f)
 			{
 				client_sock[i] = newSockfd;
 				cout<<"[+] Adding the client sockfds to the list"<<endl;
-				strcpy(uids[i],d1->getUID());
+				strcpy(uids[i],d1.getUID());
 				vs_csock.push_back(newSockfd);
 				break;
 			}
@@ -235,7 +241,6 @@ void Server :: serv_select()
 		int socketCount = select(max_sd+1,&readfds,NULL,NULL,NULL);
 		//check if fds are set
 		registeruser_login(userid,f);
-		cout<<f<<" userid: "<<userid<<endl;	
 		for(int i=0;i<max_clients;i++)
 		{
 			sd  = client_sock[i];
