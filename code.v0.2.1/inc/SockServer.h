@@ -18,6 +18,7 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include <bits/stdc++.h>
 #define MAX_BUF 4096
 #include <details.h>
 using namespace std;
@@ -27,7 +28,8 @@ class Server{
 		int sockfd;
 		int newsockfd;
 		int portno,i;
-		string ipaddr;
+		string ipaddr, data;
+		ostringstream datastr;
 		struct sockaddr_in server_addr;
 		struct sockaddr_in client_addr;
 		socklen_t len;
@@ -41,6 +43,8 @@ class Server{
 		fd_set master;
 		fd_set readfds;
 		int socketCount=0;
+		int pos;
+		string user_id, pass;
 	public:
 		Server(int _pno, string _ip) { portno = _pno; ipaddr = _ip; }
 		void create_socket();

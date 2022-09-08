@@ -119,18 +119,21 @@ void Server::registeruser_login(string &s,int &f)
 			//login
 			case 2:
 				send(newSockfd,"login",8,0);
-				//bzero(d1,sizeof(details));
 				recv(newSockfd,&user_data,sizeof(user_data),0);
 				cout<<user_data<<endl;
+			
+				data = user_data;
+				d1.tokenid(data);
 
 				/*fstream fs;
 				string line;
-				fs.open("registered.txt");
+				fs.open("data/registered.txt");
 				if(fs.is_open())
 				{
 					while(!fs.eof())
 					{
 						size_t size=sizeof(details);	
+
 						fs.read(reinterpret_cast<char*>(&d2),size);
 						if((strcmp(d2.getUID(),d1->getUID()))==0)
 						{

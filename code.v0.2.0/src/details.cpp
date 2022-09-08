@@ -40,6 +40,10 @@ void details::tokenid(string data)
 	{
 		vstring.push_back(middle);
 	}
+	for(int i=0;i<vstring.size();i++)
+	{
+		cout<<vstring[i];
+	}
 }
 void details::database()
 {

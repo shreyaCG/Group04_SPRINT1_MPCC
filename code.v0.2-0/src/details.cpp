@@ -40,14 +40,15 @@ void details::tokenid(string data)
 	{
 		vstring.push_back(middle);
 	}
+	for(int i=0;i<vstring.size();i++)
+	{
+		cout<<vstring[i];
+	}
 }
-void details::database()
+void details::database(char* data)
 {
 	fstream file;
 	file.open("data/registered.txt", ios::in | ios::app);
-	for(int i=0;i<vstring.size();i++)
-	{
-		file<<vstring[i];
-	}
+	file<<data<<endl;
 	file.close();
 }

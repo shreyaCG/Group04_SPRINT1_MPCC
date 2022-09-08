@@ -1,6 +1,10 @@
 #include <SockServer.h>
 #include <details.h>
-//Creation of Server Socket
+
+/*Creation of Server Socket using socket() system call and
+error handling, if server socket is not created.
+setsockopt() is used to connect multiple sockets of client.
+Taking IP Address and Port Number through command line arguments.*/
 void Server::create_socket()
 {
 	int opt = true;
@@ -23,7 +27,10 @@ void Server::create_socket()
 	server_addr.sin_addr.s_addr = inet_addr((const char*)ipaddr.c_str());
 }
 
-//Bind the server to a port and listen to the clients
+/*Bind the server to a port using bind() and error handling if server 
+is not binded to the port.
+Server is waiting for the client connection
+and error handling if server is not waiting for the clients.*/
 void Server::bind_listen()
 {
 	int retbind = bind(sockfd,(struct  sockaddr*)&server_addr,sizeof(server_addr));
@@ -89,9 +96,9 @@ void Server::countclient()
 //check if the fd is set
 void Server::registeruser_login(string &s,int &f)
 {
-	details d1;
-	details d2;
-	details *d3 = new details;
+	//details d1;
+	//details d2;
+	details *d1 = new details;
 	char user_data[MAX_BUF] = {'\0',}; 
 	int flag=0;
 	char buf[MAX_BUF];
@@ -111,50 +118,61 @@ void Server::registeruser_login(string &s,int &f)
 				}
 				recv(newSockfd,&user_data,sizeof(user_data),0);
 				cout<<user_data<<endl;
-				data = user_data;
-				d1.tokenid(data);
-				d1.database();
+				//data = user_data;
+				//d1.tokenid(data);
+				d1->database(user_data);
 				send(newSockfd,"success",8,0);
 				break;
 			//login
 			case 2:
 				send(newSockfd,"login",8,0);
-				//bzero(d1,sizeof(details));
+				memset(user_data,0,sizeof(user_data));
 				recv(newSockfd,&user_data,sizeof(user_data),0);
-				cout<<user_data<<endl;
+				//cout<<user_data<<endl;
+				//data = user_data;
+				//d1.tokenid(data);
 
-				/*fstream fs;
+				fstream fs;
 				string line;
-				fs.open("registered.txt");
+				fs.open("data/registered.txt");
 				if(fs.is_open())
 				{
 					while(!fs.eof())
 					{
-						size_t size=sizeof(details);	
-						fs.read(reinterpret_cast<char*>(&d2),size);
-						if((strcmp(d2.getUID(),d1->getUID()))==0)
+						getline(fs,line);
+						//size_t size=sizeof(details);	
+						//fs.read(reinterpret_cast<*>(&d2),size);
+						
+						if((strcmp(user_data,line.c_str())==0))
 						{
-							if((strcmp(d2.getPassword(),d1->getPassword()))==0)
-							{
-								flag=1;
-								break;
-							}
+							flag=1;
+							break;
 						}
 					}
 					if(flag==1)
 					{
-						cout<<"[+] The user is registered"<<endl;
-						s=d1->getUID();
+						//cout<<"[+] The user is registered"<<endl;
+						//s=d1->getUID();
+						string middle;
+						vector<string> vstring;
+        					stringstream check(user_data);
+        					while(getline(check,middle,'|'))
+        					{
+                					vstring.push_back(middle);
+        					}
+						d1->setUID((char*)vstring[0].c_str());
+						d1->setPassword((char*)vstring[1].c_str());
 						f=1;
 						send(newSockfd,"success",8,0);
+
 					}
 					else
 					{
-						cout<<"[-] The User is not registered"<<endl;
+						//cout<<"[-] The User is not registered"<<endl;
 						send(newSockfd,"failure",8,0);
 					}
 				}
-				fs.close();*/
+				fs.close();
 				
 				break;
 		}
@@ -165,7 +183,7 @@ void Server::registeruser_login(string &s,int &f)
 			{
 				client_sock[i] = newSockfd;
 				cout<<"[+] Adding the client sockfds to the list"<<endl;
-				strcpy(uids[i],d1.getUID());
+				strcpy(uids[i],d1->getUID());
 				vs_csock.push_back(newSockfd);
 				break;
 			}

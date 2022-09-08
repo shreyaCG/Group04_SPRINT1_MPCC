@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
 						cout<<str1<<endl;
 						send(newfd,str1.c_str(),str1.length(),0);
 
-						/*d=(details *)buff;
-						send(newfd,d,sizeof(details),0);
+						//d=(details *)buff;
+						//send(newfd,d,sizeof(details),0);
 						
 						memset(&buf,0,MAX_BUF);
 						recv(newfd,buf,sizeof(buf),0);
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 							cout<<"Terminated, Please Register to login"<<endl;
 							//kill(getpid(),SIGINT);
 							exit(0);
-						}*/
+						}
 					}
 					break;
 			}
