@@ -1,0 +1,18 @@
+Client::getIPaddress_UT_sunny : OK
+Client::getIPaddress_UT_rainy : assertion
+Client::getPortNumber_UT_sunny : OK
+Client::getPortNumber_UT_rainy : assertion
+client_test.cpp:23:Assertion
+Test name: Client::getIPaddress_UT_rainy
+equality assertion failed
+- Expected: 127.9.9.1
+- Actual  : 127.0.0.1
+
+client_test.cpp:35:Assertion
+Test name: Client::getPortNumber_UT_rainy
+equality assertion failed
+- Expected: 9090
+- Actual  : 8080
+
+Failures !!!
+Run: 4   Failure total: 2   Failures: 2   Errors: 0

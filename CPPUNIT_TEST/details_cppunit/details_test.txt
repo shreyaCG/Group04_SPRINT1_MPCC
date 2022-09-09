@@ -1,0 +1,18 @@
+details::getUserID_UT_sunny : OK
+details::getUserID_UT_rainy : assertion
+details::getPassword_UT_sunny : OK
+details::getPassword_UT_rainy : assertion
+details_test.cpp:23:Assertion
+Test name: details::getUserID_UT_rainy
+equality assertion failed
+- Expected: rajesh
+- Actual  : nikhitha
+
+details_test.cpp:35:Assertion
+Test name: details::getPassword_UT_rainy
+equality assertion failed
+- Expected: 1313
+- Actual  : 1212
+
+Failures !!!
+Run: 4   Failure total: 2   Failures: 2   Errors: 0

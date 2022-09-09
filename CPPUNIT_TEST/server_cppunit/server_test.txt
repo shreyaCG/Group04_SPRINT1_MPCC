@@ -1,0 +1,18 @@
+Server::getIPaddress_UT_sunny : OK
+Server::getIPaddress_UT_rainy : assertion
+Server::getPortNumber_UT_sunny : OK
+Server::getPortNumber_UT_rainy : assertion
+server_test.cpp:23:Assertion
+Test name: Server::getIPaddress_UT_rainy
+equality assertion failed
+- Expected: 127.6.6.1
+- Actual  : 127.0.0.1
+
+server_test.cpp:35:Assertion
+Test name: Server::getPortNumber_UT_rainy
+equality assertion failed
+- Expected: 6060
+- Actual  : 8080
+
+Failures !!!
+Run: 4   Failure total: 2   Failures: 2   Errors: 0
