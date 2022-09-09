@@ -1,0 +1,28 @@
+
+~~Thu Sep  8 00:52:39 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Thu Sep  8 00:52:39 2022
+	Info log::[+] Server bind to port no:
+-------------
+
+~~Thu Sep  8 00:52:39 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Thu Sep  8 00:52:41 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:53:02 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:53:07 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:53:18 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------

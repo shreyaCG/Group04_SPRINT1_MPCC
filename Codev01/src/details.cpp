@@ -1,9 +1,9 @@
 #include<details.h>
 void* details::setdetails()
 {
-	cout<<"Enter UserID: ";
+	cout<<"Enter UserID: "<<endl;
 	cin>>uid;
-	cout<<"Enter Password: ";
+	cout<<"Enter Password: "<<endl;
 	cin>>password;
 }
 void* details::registeruser()

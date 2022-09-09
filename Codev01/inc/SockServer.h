@@ -54,6 +54,7 @@ class Server{
 		void countclient();
 		void handledisconnect();
 		void broadcast_msg(string);
+		int logger(char*);
 		void registeruser_login(string &,int &);
 };
 

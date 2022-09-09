@@ -110,46 +110,8 @@ void Server::registeruser_login(string &s,int &f)
 				bzero(d1,sizeof(details));
 				recv(newSockfd,d1,sizeof(details),0);
 				d1->database(d1);
-				send(newSockfd,"success",8,0);			
-				if((recv(newSockfd,buf,MAX_BUF,0))==atoi("2"))
-				{
-					send(newSockfd,"login",6,0);
-
-					bzero(d1,sizeof(details));
-					recv(newSockfd,d1,sizeof(details),0);
-					fstream fs;
-					string line;
-					fs.open("registered.txt");
-					if(fs.is_open())
-					{
-						while(!fs.eof())
-						{
-							size_t size=sizeof(details);	
-							fs.read(reinterpret_cast<char*>(&d2),size);
-							if((strcmp(d2.getUID(),d1->getUID()))==0)
-							{
-								if((strcmp(d2.getPassword(),d1->getPassword()))==0)
-								{
-								flag=1;
-								break;
-								}
-							}
-						}
-						if(flag==1)
-						{
-							s=d1->getUID();
-							f=1;
-							send(newSockfd,"success",8,0);
-							
-						}
-						else
-						{
-							send(newSockfd,"failure",8,0);
-						}
-					}
-					fs.close();
-				}
-				break;
+				send(newSockfd,"success",8,0);
+				break;			
 			//login
 			case 2:
 				send(newSockfd,"login",8,0);

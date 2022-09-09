@@ -8,17 +8,17 @@ void Client::Create_Socket()
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if(sockfd < 0)
 	{
-		perror("socket() error");
+		logger("Fatal log::socket() error");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Client Socket Created"<<endl;
+	logger("Info log::[+] Client Socket Created");
 	
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(Port);
 	server_addr.sin_addr.s_addr = inet_addr((const char*)ipaddr.c_str());
 	
-	cout<<"[+] Client bind to port no:"<<Port<<" and ip_address: "<<ipaddr<<endl;
+	logger("Info log::[+] Client bind to port number and ip_address: ");
 }
 //connect the client to the server
 void Client::ConnectClient()
@@ -27,10 +27,10 @@ void Client::ConnectClient()
 	int ret = connect(sockfd,(struct sockaddr*)&server_addr,sizeof(server_addr));
 	if(ret < 0)
 	{
-		perror("connect() error: ");
+		logger("Fatal log::connect() error: ");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Client connected to the server"<<endl;
+	logger("Fatal Info log::[+] Client connected to the server");
 }
 
 //close the client socket
@@ -61,7 +61,20 @@ void RecvData(int clientSocketFd, int flags)
 	      cout<<rcvDataBuf<<endl;
    }
 }
+int Client::logger(char* msg)
+{
+	FILE *logfile;
+	char filename[100]="Clientdata.log";
+	time_t ltime=time(NULL);
+	struct tm res;
+	char TIMESTAMP[32];
+	localtime_r(&ltime,&res);
+	asctime_r(&res,TIMESTAMP);
 
+	logfile=fopen(filename,"a+");
+	fprintf(logfile,"\n~~%s\t%s\n-------------\n",TIMESTAMP,msg);
+	fclose(logfile);
+}
 // this function sends data taken from the terminal to the server
 void SendData(int clientSocketFd, int flags)
 {

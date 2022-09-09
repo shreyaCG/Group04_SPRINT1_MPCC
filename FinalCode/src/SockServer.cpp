@@ -7,7 +7,7 @@ void Server::create_socket()
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if(sockfd < 0)
 	{
-		perror("socket() error");
+		logger("Fatal log::socket() error");
 		exit(EXIT_FAILURE);
 	}
 	if(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt))<0)
@@ -118,7 +118,7 @@ void Server::registeruser_login()
 			case 1:
 				if(send(newSockfd,"register",9,0)<0)
 				{
-					perror("send() error");
+					logger("Fatal log::send() error");
 					exit(EXIT_FAILURE);
 				}
 				bzero(d1,sizeof(details));
@@ -186,12 +186,12 @@ void Server::registeruser_login()
 					}
 					if(flag==1)
 					{
-						cout<<"[+] The user is registered"<<endl;
+						logger("Info log::[+] The user is registered");
 						send(newSockfd,"success",8,0);
 					}
 					else
 					{
-						cout<<"[-] The User is not registered"<<endl;
+						logger("Info log::[-] The User is not registered");
 						send(newSockfd,"failure",8,0);
 					}
 				}
@@ -205,7 +205,7 @@ void Server::registeruser_login()
 			if(client_sock[i] == 0)
 			{
 				client_sock[i] = newSockfd;
-				cout<<"[+] Adding the client sockfds to the list"<<endl;
+				logger("Info log::[+] Adding the client sockfds to the list");
 				vs_csock.push_back(newSockfd);
 				break;
 			}

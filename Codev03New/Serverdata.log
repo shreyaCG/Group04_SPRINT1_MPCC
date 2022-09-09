@@ -1,0 +1,264 @@
+
+~~Wed Sep  7 23:59:01 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Wed Sep  7 23:59:01 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Wed Sep  7 23:59:01 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Wed Sep  7 23:59:36 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Wed Sep  7 23:59:36 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Wed Sep  7 23:59:36 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Wed Sep  7 23:59:43 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Wed Sep  7 23:59:54 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:00:12 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:00:18 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:00:27 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:00:32 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:00:39 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:00:43 2022
+	Info log::[+] The user is registered
+-------------
+
+~~Thu Sep  8 00:00:43 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:00:51 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:00:57 2022
+	Info log::[+] The user is registered
+-------------
+
+~~Thu Sep  8 00:00:57 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:01:08 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:01:15 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:01:17 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:01:27 2022
+	Info log::[+] The user is registered
+-------------
+
+~~Thu Sep  8 00:01:27 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:02:31 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Thu Sep  8 00:02:31 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Thu Sep  8 00:02:31 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Thu Sep  8 00:02:36 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:02:47 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:02:58 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Thu Sep  8 00:02:58 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Thu Sep  8 00:02:58 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Thu Sep  8 00:03:05 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:03:11 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:03:16 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:03:20 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:05:31 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Thu Sep  8 00:05:31 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Thu Sep  8 00:05:31 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Thu Sep  8 00:05:37 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:05:47 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:05:57 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:06:04 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:06:12 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:06:18 2022
+	Info log::[+] The user is registered
+-------------
+
+~~Thu Sep  8 00:06:18 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:06:22 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:06:28 2022
+	Info log::[+] The user is registered
+-------------
+
+~~Thu Sep  8 00:06:28 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:23:37 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Thu Sep  8 00:23:37 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Thu Sep  8 00:23:37 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Thu Sep  8 00:23:51 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:24:02 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:24:41 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:24:48 2022
+	Info log::[+] The user is registered
+-------------
+
+~~Thu Sep  8 00:24:48 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:25:36 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:25:43 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:25:51 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:26:05 2022
+	Info log::[-] The User is not registered
+-------------
+
+~~Thu Sep  8 00:26:05 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------
+
+~~Thu Sep  8 00:32:43 2022
+	Info log::[+] Server Socket Created
+-------------
+
+~~Thu Sep  8 00:32:43 2022
+	Info log::[+] Server bind to port number
+-------------
+
+~~Thu Sep  8 00:32:43 2022
+	Info log::[+] Server listening to the clients
+-------------
+
+~~Thu Sep  8 00:32:53 2022
+	Info log::[+] Server accepts the client
+-------------
+
+~~Thu Sep  8 00:33:08 2022
+	Info log::[+] Adding the client sockfds to the list
+-------------

@@ -1,0 +1,12 @@
+nick|17
+mike|1234
+789|pallu
+rrr|444
+
+we|999
+1112|ree
+
+222|eee
+555|fff
+1222|ttt
+0000|aaaa

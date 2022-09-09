@@ -7,15 +7,15 @@ void Server::create_socket()
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if(sockfd < 0)
 	{
-		perror("socket() error");
+		logger("Fatal log::socket() error");
 		exit(EXIT_FAILURE);
 	}
 	if(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt))<0)
 	{
-		perror("setsockopt() error");
+		logger("Fatal log::setsockopt() error");
 		exit(EXIT_FAILURE);
 	}	
-	cout<<"[+] Server Socket Created"<<endl;
+	logger("Info log::[+] Server Socket Created");
 
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
@@ -29,16 +29,16 @@ void Server::bind_listen()
 	int retbind = bind(sockfd,(struct  sockaddr*)&server_addr,sizeof(server_addr));
 	if(retbind<0)
 	{
-		perror("bind() error");
+		logger("Fatal log::bind() error");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Server bind to port no:"<<portno<<endl;
+	logger("Info log::[+] Server bind to port no:");
 	if(listen(sockfd, 5)<0)
 	{
-		perror("listen() error");
+		logger("Fatal log::listen() error");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Server listening to the clients"<<endl;
+	logger("Info log::[+] Server listening to the clients");
 }
 
 //Server accepts the client
@@ -48,10 +48,10 @@ int Server::acceptclient(int sfd)
 	newsockfd = accept(sfd, (struct sockaddr *)&client_addr, &len);
 	if(newsockfd<0)
 	{
-		perror("accept() failed");
+		logger("Fatal log::accept() failed");
 		exit(EXIT_FAILURE);
 	}
-	cout<<"[+] Server accepts the client"<<endl;
+	logger("Info log::[+] Server accepts the client");
 	return newsockfd;
 }
 
@@ -85,7 +85,20 @@ void Server::countclient()
 			max_sd = sd;
 	}
 }
+int Server::logger(char* msg)
+{
+	FILE *logfile;
+	char filename[100]="Serverdata.log";
+	time_t ltime=time(NULL);
+	struct tm res;
+	char TIMESTAMP[32];
+	localtime_r(&ltime,&res);
+	asctime_r(&res,TIMESTAMP);
 
+	logfile=fopen(filename,"a+");
+	fprintf(logfile,"\n~~%s\t%s\n-------------\n",TIMESTAMP,msg);
+	fclose(logfile);
+}
 //check if the fd is set
 void Server::registeruser_login(string &s,int &f)
 {
@@ -104,7 +117,7 @@ void Server::registeruser_login(string &s,int &f)
 			case 1:
 				if(send(newSockfd,"register",9,0)<0)
 				{
-					perror("send() error");
+					logger("Fatal log::send() error");
 					exit(EXIT_FAILURE);
 				}
 				bzero(d1,sizeof(details));
@@ -175,14 +188,14 @@ void Server::registeruser_login(string &s,int &f)
 					}
 					if(flag==1)
 					{
-						cout<<"[+] The user is registered"<<endl;
+						logger("Info log::[+] The user is registered");
 						s=d1->getUID();
 						f=1;
 						send(newSockfd,"success",8,0);
 					}
 					else
 					{
-						cout<<"[-] The User is not registered"<<endl;
+						logger("Info log::[-] The User is not registered");
 						send(newSockfd,"failure",8,0);
 					}
 				}
@@ -196,7 +209,7 @@ void Server::registeruser_login(string &s,int &f)
 			if(client_sock[i] == 0)
 			{
 				client_sock[i] = newSockfd;
-				cout<<"[+] Adding the client sockfds to the list"<<endl;
+				logger("Info log::[+] Adding the client sockfds to the list");
 				vs_csock.push_back(newSockfd);
 				break;
 			}

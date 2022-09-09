@@ -1,0 +1,33 @@
+==219== Memcheck, a memory error detector
+==219== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==219== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==219== Command: ./bin/client 127.0.0.1 8080
+==219== Parent PID: 8
+==219== 
+==219== error calling PR_SET_PTRACER, vgdb might block
+==219== Syscall param socketcall.sendto(msg) points to uninitialised byte(s)
+==219==    at 0x4866790: send (send.c:28)
+==219==    by 0x10AB63: main (Clientmain.cpp:66)
+==219==  Address 0x4dccda5 is 5 bytes inside a block of size 40 alloc'd
+==219==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==219==    by 0x10C21D: details::loginuser() (details.cpp:17)
+==219==    by 0x10C2C2: details::choose(int) (details.cpp:32)
+==219==    by 0x10AB30: main (Clientmain.cpp:64)
+==219== 
+==219== 
+==219== HEAP SUMMARY:
+==219==     in use at exit: 752 bytes in 6 blocks
+==219==   total heap usage: 9 allocs, 3 frees, 81,648 bytes allocated
+==219== 
+==219== LEAK SUMMARY:
+==219==    definitely lost: 0 bytes in 0 blocks
+==219==    indirectly lost: 0 bytes in 0 blocks
+==219==      possibly lost: 576 bytes in 2 blocks
+==219==    still reachable: 176 bytes in 4 blocks
+==219==         suppressed: 0 bytes in 0 blocks
+==219== Rerun with --leak-check=full to see details of leaked memory
+==219== 
+==219== Use --track-origins=yes to see where uninitialised values come from
+==219== For lists of detected and suppressed errors, rerun with: -s
+==219== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+)
