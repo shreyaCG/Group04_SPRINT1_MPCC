@@ -1,0 +1,98 @@
+        -:    0:Source:SockClient.cpp
+        -:    1:#include "SockClient.h"
+        -:    2:#include "details.h"
+        -:    3:
+        -:    4:/*creates client sockets and error handling is done if sockets are not created
+        -:    5: takes the port number and ipaddress through command line*/
+        -:    6:
+        4:    7:void Client::Create_Socket()
+        -:    8:{
+        -:    9:	//client socket creation
+        4:   10:	Client_Socketfd = socket(AF_INET, SOCK_STREAM, 0);
+        4:   11:	if(Client_Socketfd < 0)
+        -:   12:	{
+    #####:   13:		perror("socket() error");
+    #####:   14:		exit(EXIT_FAILURE);
+        -:   15:	}
+        4:   16:	log("Info log: [+] Client Socket Created");
+        -:   17:	
+        4:   18:	memset(&server_addr, 0, sizeof(server_addr));
+        4:   19:	server_addr.sin_family = AF_INET;
+        4:   20:	server_addr.sin_port = htons(Port);
+        4:   21:	server_addr.sin_addr.s_addr = inet_addr((const char*)ipaddr.c_str());
+        -:   22:	
+        4:   23:	log("Info log: [+] Client bind to port");
+        4:   24:}
+        -:   25:/*connect the client to the server 
+        -:   26:and error handling if connection is failed*/
+        4:   27:void Client::ConnectClient()
+        -:   28:{
+        -:   29:	//connect the client 
+        4:   30:	int Connect= connect(Client_Socketfd,(struct sockaddr*)&server_addr,sizeof(server_addr));
+        4:   31:	if(Connect < 0)
+        -:   32:	{
+    #####:   33:		log("Fatal log: connect() error: ");
+    #####:   34:		exit(EXIT_FAILURE);
+        -:   35:	}
+        4:   36:	log("Info log: [+] Client connected to the server");
+        4:   37:}
+        -:   38:
+        -:   39://close the client socket
+    #####:   40:void Client::ClientClose(int socketfd)
+        -:   41:{
+    #####:   42:	close(socketfd);
+    #####:   43:}
+        -:   44:
+        -:   45:
+        5:   46:void RecvData(int clientSocketFd, int flags)
+        -:   47:{
+        -:   48:
+        -:   49:   int dataRecvd;
+        -:   50:   char rcvDataBuf[MAX_BUF];
+        -:   51:
+        -:   52:   while(1)
+        -:   53:   {
+        5:   54:      memset(&rcvDataBuf, 0, MAX_BUF);
+        5:   55:      dataRecvd = recv(clientSocketFd, rcvDataBuf, MAX_BUF, flags);
+        3:   56:      if(dataRecvd>0) 
+        3:   57:	      cout<<rcvDataBuf<<endl;
+        -:   58:   }
+        -:   59:}
+        -:   60:
+        -:   61:/*this function sends data message sent by the client
+        -:   62:  from the terminal to the server*/
+        6:   63:void SendData(int clientSocketFd, int flags)
+        -:   64:{
+        -:   65:   char sendDataBuf[MAX_BUF];
+        -:   66:   int dataSent;
+        -:   67:   while(1)
+        -:   68:   {
+        6:   69:      memset(&sendDataBuf, 0, MAX_BUF);
+        6:   70:      cin.clear();
+        -:   71:
+        6:   72:      cin.getline(sendDataBuf,MAX_BUF);
+        -:   73:      
+        6:   74:      dataSent = send(clientSocketFd, sendDataBuf, strlen(sendDataBuf), flags);
+        6:   75:      if(!strcmp(sendDataBuf, "bye"))
+        -:   76:      {
+        2:   77:         close(clientSocketFd);
+        2:   78:         exit(1);
+        -:   79:      }
+        -:   80:   }
+        -:   81:}
+        -:   82:/*This function creates a logfile and stores all the log messages 
+        -:   83: along with the timestamp*/
+       12:   84:void Client::log(string logs)
+        -:   85:{
+        -:   86:	FILE *logfile;
+       12:   87:	char filename[100]="logs/Clientdata.log";
+       12:   88:	time_t ltime=time(NULL);
+        -:   89:	struct tm res;
+        -:   90:	char TIMESTAMP[32];
+       12:   91:	char* msg = const_cast<char*>(logs.c_str());
+       12:   92:	localtime_r(&ltime,&res);
+       12:   93:	asctime_r(&res,TIMESTAMP);											
+       12:   94:	logfile=fopen(filename,"a+");
+       12:   95:	fprintf(logfile,"\n~~%s\t%s\n-------------\n",TIMESTAMP,msg);
+       12:   96:	fclose(logfile);
+       12:   97:}

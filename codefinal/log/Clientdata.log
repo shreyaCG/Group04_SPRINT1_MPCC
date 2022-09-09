@@ -1,0 +1,36 @@
+
+~~Fri Sep  9 03:03:11 2022
+	Info log::[+] Client Socket Created
+-------------
+
+~~Fri Sep  9 03:03:11 2022
+	Info log::[+] Client bind to port number and ip_address: 
+-------------
+
+~~Fri Sep  9 03:03:11 2022
+	Fatal log ::connect() error: 
+-------------
+
+~~Fri Sep  9 03:04:04 2022
+	Info log::[+] Client Socket Created
+-------------
+
+~~Fri Sep  9 03:04:04 2022
+	Info log::[+] Client bind to port number and ip_address: 
+-------------
+
+~~Fri Sep  9 03:04:04 2022
+	Fatal log ::connect() error: 
+-------------
+
+~~Fri Sep  9 03:20:53 2022
+	Info log::[+] Client Socket Created
+-------------
+
+~~Fri Sep  9 03:20:53 2022
+	Info log::[+] Client bind to port number and ip_address: 
+-------------
+
+~~Fri Sep  9 03:20:53 2022
+	Fatal log ::connect() error: 
+-------------

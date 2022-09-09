@@ -1,0 +1,334 @@
+        -:    0:Source:SockServer.cpp
+        -:    1:#include "SockServer.h"
+        -:    2:#include "details.h"
+        -:    3://Creation of Server Socket
+    #####:    4:void Server::create_socket()
+        -:    5:{
+        -:    6:	/*now = time(0);
+        -:    7:	date = ctime(&now);
+        -:    8:	strcat(date,"server");
+        -:    9:	strcat(date,".log");
+        -:   10:	file.open(date, ios::in | ios::app);
+        -:   11:*/
+    #####:   12:	int opt = true;
+    #####:   13:	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    #####:   14:	if(sockfd < 0)
+        -:   15:	{
+    #####:   16:		perror("socket() error");
+        -:   17:		//file<<"socket() error"<<endl;
+    #####:   18:		exit(EXIT_FAILURE);
+        -:   19:	}
+    #####:   20:	if(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt))<0)
+        -:   21:	{
+    #####:   22:		perror("setsockopt() error");
+    #####:   23:		exit(EXIT_FAILURE);
+        -:   24:	}	
+        -:   25:	//file<<"[+] Server Socket Created"<<endl;
+        -:   26:	//file.close();
+    #####:   27:	memset(&server_addr, 0, sizeof(server_addr));
+    #####:   28:	server_addr.sin_family = AF_INET;
+    #####:   29:	server_addr.sin_port = htons(protno);
+    #####:   30:	server_addr.sin_addr.s_addr = inet_addr((const char*)ipaddr.c_str());
+    #####:   31:}
+        -:   32://Bind the server to a port and listen to the clients
+    #####:   33:void Server::bind_listen()
+        -:   34:{
+    #####:   35:	int retbind = bind(sockfd,(struct  sockaddr*)&server_addr,sizeof(server_addr));
+    #####:   36:	if(retbind<0)
+        -:   37:	{
+    #####:   38:		perror("bind() error");
+    #####:   39:		exit(EXIT_FAILURE);
+        -:   40:	}
+    #####:   41:	cout<<"[+]Server bind to port no:"<<protno<<endl;
+    #####:   42:	if(listen(sockfd, 5)<0)
+        -:   43:	{
+    #####:   44:		perror("listen() error");
+    #####:   45:		exit(EXIT_FAILURE);
+        -:   46:	}
+    #####:   47:	cout<<"[+]Server listening to the clients"<<endl;
+    #####:   48:}
+        -:   49://Server accepts the client
+    #####:   50:int Server::acceptclient(int sfd)
+        -:   51:{
+    #####:   52:	len = sizeof(client_addr);
+    #####:   53:	newsockfd = accept(sfd, (struct sockaddr *)&client_addr, &len);
+    #####:   54:	if(newsockfd<0)
+        -:   55:	{
+    #####:   56:		perror("accept() failed");
+    #####:   57:		exit(EXIT_FAILURE);
+        -:   58:	}
+    #####:   59:	cout<<"[+]Server accepts the client"<<endl;
+    #####:   60:	return newsockfd;
+        -:   61:}
+        -:   62://close the server socket
+    #####:   63:void Server::servClose(int sfd)
+        -:   64:{
+    #####:   65:	close(sfd);
+    #####:   66:}
+        -:   67://function to recieve the message from client
+    #####:   68:int readData1(int &sfd, char*buff)
+        -:   69:{
+        -:   70:	
+    #####:   71:	memset(buff, 0, MAX_BUF);
+    #####:   72:	int ret = read(sfd,buff,MAX_BUF);
+        -:   73:	
+    #####:   74:	return ret;
+        -:   75:}
+        -:   76://function to send the message to the client
+    #####:   77:int writeData1(int &sfd, char*buff)
+        -:   78:{
+    #####:   79:	memset(buff, 0, MAX_BUF);
+        -:   80:	
+    #####:   81:	strcpy(buff,"Welcome!!!");
+    #####:   82:	int ret = write(sfd,buff,strlen(buff));
+    #####:   83:	memset(buff, 0, MAX_BUF);
+    #####:   84:	return ret;
+        -:   85:}
+        -:   86://store the registered users in a file
+        -:   87:/*void Server::handleusers(char* buff,char* user)
+        -:   88:{
+        -:   89:	ifstream fs;
+        -:   90:	if(buff != NULL)
+        -:   91:	{
+        -:   92:		fs.open("registered.txt", ios::in | ios::app);
+        -:   93:		fs<<buff<<endl;
+        -:   94:		fs.close();
+        -:   95:	}
+        -:   96:	int lines=0;
+        -:   97:	string line;
+        -:   98:	string usr(user);
+        -:   99:	fs.open("registered.txt",ios::in);
+        -:  100:	if(fs.is_open())
+        -:  101:	{
+        -:  102:		while(getline(fs,line))
+        -:  103:		{
+        -:  104:			lines++;		
+        -:  105:			if(line.find(usr,0)!=string::npos)
+        -:  106:			{
+        -:  107:				cout<<usr<<" exists "<<endl;
+        -:  108:		
+        -:  109:			}
+        -:  110:		}
+        -:  111:	}
+        -:  112:	fs.close();
+        -:  113:}*/
+        -:  114://create fd sets
+    #####:  115:void Server::createfds()
+        -:  116:{
+    #####:  117:	readfds = master;
+    #####:  118:	max_sd = serverfd;
+        -:  119:	//clear the sock set fds
+    #####:  120:	FD_ZERO(&readfds);
+    #####:  121:	FD_SET(serverfd,&readfds);
+    #####:  122:	max_sd = serverfd;
+    #####:  123:}
+        -:  124://check the number of clients connected and the maximum sockets created
+    #####:  125:void Server::countclient()
+        -:  126:{
+    #####:  127:	for(int i=0;i<max_clients;i++)
+        -:  128:	{
+    #####:  129:		sd = client_sock[i];
+        -:  130:		///if valid socket desc... then add to readfds lists
+    #####:  131:		if(sd > 0)
+    #####:  132:			FD_SET(sd,&readfds);
+        -:  133:		//highest fds number, need it for the select fucntion
+    #####:  134:		if(sd > max_sd)
+    #####:  135:			max_sd = sd;
+        -:  136:	}
+    #####:  137:}
+        -:  138://check if the fd is set
+    #####:  139:void Server::registeruser_login()
+        -:  140:{
+    #####:  141:	details *d1=new details;
+        -:  142:	details d2;
+    #####:  143:	int flag=0;
+        -:  144:	char buf[MAX_BUF];
+    #####:  145:	if(FD_ISSET(serverfd, &readfds))
+        -:  146:	{		
+    #####:  147:		int newSockfd = acceptclient(serverfd);	
+    #####:  148:		int recvopt=recv(newSockfd,buf,MAX_BUF,0);
+        -:  149:		//check whether client wants to login or register
+    #####:  150:		switch(atoi(buf))
+        -:  151:		{
+        -:  152:			//register and login
+    #####:  153:			case 1:
+    #####:  154:				if(send(newSockfd,"register",9,0)<0)
+        -:  155:				{
+    #####:  156:					perror("send error");
+    #####:  157:					exit(EXIT_FAILURE);
+        -:  158:				}
+    #####:  159:				bzero(d1,sizeof(details));
+    #####:  160:				recv(newSockfd,d1,sizeof(details),0);
+    #####:  161:				d1->database(d1);
+    #####:  162:				send(newSockfd,"success",8,0);			
+    #####:  163:				if((recv(newSockfd,buf,MAX_BUF,0))==atoi("2"))
+        -:  164:				{
+    #####:  165:					send(newSockfd,"login",6,0);
+        -:  166:
+    #####:  167:					bzero(d1,sizeof(details));
+    #####:  168:					recv(newSockfd,d1,sizeof(details),0);
+    #####:  169:					fstream fs;
+    #####:  170:					string line;
+    #####:  171:					fs.open("registered.txt");
+    #####:  172:					if(fs.is_open())
+        -:  173:					{
+    #####:  174:						while(!fs.eof())
+        -:  175:						{
+    #####:  176:							size_t size=sizeof(details);	
+    #####:  177:							fs.read(reinterpret_cast<char*>(&d2),size);
+    #####:  178:							if((strcmp(d2.getUID(),d1->getUID()))==0)
+        -:  179:							{
+    #####:  180:								if((strcmp(d2.getPassword(),d1->getPassword()))==0)
+        -:  181:								{
+    #####:  182:								flag=1;
+    #####:  183:								break;
+        -:  184:								}
+        -:  185:							}
+        -:  186:						}
+    #####:  187:						if(flag==1)
+        -:  188:						{
+    #####:  189:							send(newSockfd,"success",8,0);
+        -:  190:						}
+        -:  191:						else
+        -:  192:						{
+    #####:  193:							send(newSockfd,"failure",8,0);
+        -:  194:						}
+        -:  195:					}
+    #####:  196:					fs.close();
+        -:  197:				}
+    #####:  198:				break;
+        -:  199:			//login
+    #####:  200:			case 2:
+    #####:  201:				send(newSockfd,"login",8,0);
+    #####:  202:				bzero(d1,sizeof(details));
+    #####:  203:				recv(newSockfd,d1,sizeof(details),0);
+    #####:  204:				fstream fs;
+    #####:  205:				string line;
+    #####:  206:				fs.open("registered.txt");
+    #####:  207:				if(fs.is_open())
+        -:  208:				{
+    #####:  209:					while(!fs.eof())
+        -:  210:					{
+    #####:  211:						size_t size=sizeof(details);	
+    #####:  212:						fs.read(reinterpret_cast<char*>(&d2),size);
+    #####:  213:						if((strcmp(d2.getUID(),d1->getUID()))==0)
+        -:  214:						{
+    #####:  215:							if((strcmp(d2.getPassword(),d1->getPassword()))==0)
+        -:  216:							{
+    #####:  217:								flag=1;
+    #####:  218:								break;
+        -:  219:							}
+        -:  220:						}
+        -:  221:					}
+    #####:  222:					if(flag==1)
+        -:  223:					{
+    #####:  224:						cout<<"The user is registered"<<endl;
+    #####:  225:						send(newSockfd,"success",8,0);
+        -:  226:					}
+        -:  227:					else
+        -:  228:					{
+    #####:  229:						cout<<"The User is not registered"<<endl;
+    #####:  230:						send(newSockfd,"failure",8,0);
+        -:  231:					}
+        -:  232:				}
+    #####:  233:				fs.close();
+        -:  234:				
+    #####:  235:				break;
+        -:  236:		}
+        -:  237:		//add the clients connecting to the server in a vector
+    #####:  238:		for(int i=0;i<max_clients;i++)
+        -:  239:		{
+    #####:  240:			if(client_sock[i] == 0)
+        -:  241:			{
+    #####:  242:				client_sock[i] = newSockfd;
+    #####:  243:				cout<<"[+] Adding the client sockfds to the list"<<endl;
+    #####:  244:				vs_csock.push_back(newSockfd);
+    #####:  245:				break;
+        -:  246:			}
+        -:  247:		}
+        -:  248:	}//end if fd_ISSET
+    #####:  249:}
+        -:  250://handle the clients that are disconnected
+    #####:  251:void Server::handledisconnect()
+        -:  252:{
+    #####:  253:	socklen_t len = sizeof(getClientAddr());
+        -:  254:	uint16_t port;
+    #####:  255:	struct sockaddr_in address = getClientAddr();
+    #####:  256:	getpeername(sd,(struct sockaddr*)&address, &len);						
+    #####:  257:	cout<<"[+] Client disconnected with IP: "<<inet_ntoa(address.sin_addr);
+    #####:  258:	cout<<" and with port number: "<<ntohs(address.sin_port)<<endl;
+    #####:  259:	cout<<"[+] Closing Socket with port  "<<ntohs(address.sin_port)<<endl;
+    #####:  260:	close(sd);
+    #####:  261:	client_sock[i] = 0;
+    #####:  262:}
+        -:  263://broadcast the message sent by one client to all the active clients
+    #####:  264:void Server::broadcast_msg()
+        -:  265:{
+    #####:  266:	for(int i=0;(i<vs_csock.size())&&(client_sock[i] !=0 );i++)
+        -:  267:	{
+    #####:  268:		int sock = client_sock[i];
+    #####:  269:		if(sock != sd && sock != serverfd && sock !=0)
+        -:  270:		{
+    #####:  271:			char tbuff[MAX_BUF] = {'\0',};
+    #####:  272:			strcpy(tbuff, "User  ");
+    #####:  273:			string temp_str=to_string(i+1);
+    #####:  274:			strcat(tbuff,temp_str.c_str());
+    #####:  275:			strcat(tbuff,": ");
+    #####:  276:			strcat(tbuff,buff);
+    #####:  277:			strcat(tbuff,"\r\n");							
+    #####:  278:			write(sock, tbuff, strlen(tbuff));
+        -:  279:
+        -:  280:		}
+        -:  281:	}
+    #####:  282:}	
+        -:  283://checks if the socket is ready for reading or writing
+    #####:  284:void Server :: serv_select(int port,string ip)
+        -:  285:{
+    #####:  286:	for(int i=0;i<max_clients;i++)
+        -:  287:	{
+    #####:  288:		client_sock[i] = 0;	
+        -:  289:	}
+    #####:  290:	serverfd =getServSockfd();
+    #####:  291:	FD_ZERO(&master);
+        -:  292:	while(true)
+        -:  293:	{	
+        -:  294:		//createfds	
+    #####:  295:		createfds();
+        -:  296:		// for adding new client scket to set
+    #####:  297:		countclient();
+        -:  298:		//check if the socket is ready
+    #####:  299:		int socketCount = select(max_sd+1,&readfds,NULL,NULL,NULL);
+        -:  300:		//check if fds are set
+    #####:  301:		registeruser_login();	
+    #####:  302:		for(int i=0;i<max_clients;i++)
+        -:  303:		{
+    #####:  304:			sd  = client_sock[i];
+    #####:  305:			if(FD_ISSET (sd, &readfds))
+        -:  306:			{
+    #####:  307:				memset(buff,0,MAX_BUF);
+    #####:  308:				if((readVal = read(sd, buff,MAX_BUF)) == 0)
+        -:  309:				{
+    #####:  310:					handledisconnect();	
+        -:  311:			
+    #####:  312:					if(vs_csock.size()==1)
+        -:  313:					{
+    #####:  314:						vs_csock.erase(vs_csock.begin());
+        -:  315:					}
+        -:  316:					else
+        -:  317:					{
+    #####:  318:						vs_csock.erase(vs_csock.begin()+i);
+        -:  319:					
+        -:  320:					}
+        -:  321:				}
+        -:  322:				else
+        -:  323:				{
+        -:  324:				//broadcast message	
+    #####:  325:					broadcast_msg();
+    #####:  326:					memset(buff,0,MAX_BUF);
+        -:  327:				}
+        -:  328:			}
+        -:  329:		}
+    #####:  330:	}// end of while loop
+        -:  331:	
+        -:  332:	servClose(getServSockfd());
+        -:  333:}
