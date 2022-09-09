@@ -1,0 +1,37 @@
+        -:    0:Source:details.h
+        -:    1:#pragma once
+        -:    2:#include<iostream>
+        -:    3:#include<cstring>
+        -:    4:#include<string>
+        -:    5:#include<sstream>
+        -:    6:#include<stdlib.h>
+        -:    7:#include<ctype.h>
+        -:    8:#include<bits/stdc++.h>
+        -:    9:
+        -:   10:using namespace std;
+        -:   11:
+        -:   12:class details
+        -:   13:{
+        -:   14:	private:
+        -:   15:		char uid[20];
+        -:   16:		char password[20];
+        -:   17:		vector<string> vstring;
+        -:   18:		ostringstream ss;
+        -:   19:	public:
+        -:   20:		//details(char* usr_id, char* pass_word) { strcpy(uid, usr_id), strcpy(password, pass_word); }
+        -:   21:		void setdetails();
+        -:   22:		//void registeruser();
+        -:   23:		//void loginuser();
+        -:   24:		//void choose(int);
+        -:   25:		void tokenid(string);
+        -:   26:		void database(char*);
+        -:   27:		void setUID(char* s){ strcpy(uid,s); }
+        -:   28:		void setPassword(char* s) { strcpy(password,s); }
+        4:   29:		char* getUID(){ return uid;}
+        4:   30:		char* getPassword(){ return password;}
+        -:   31:		void getdetails() { cout<<uid<<'\n'<<password<<endl; }	
+        4:   32:		string toString(){ 
+        4:   33:			ss<<this->getUID()<<"|"<<this->getPassword();	//<<"|";
+        4:   34:			return ss.str();
+        -:   35:		}
+        -:   36:};

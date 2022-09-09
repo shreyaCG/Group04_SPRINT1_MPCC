@@ -1,0 +1,43 @@
+        -:    0:Source:SockClient.h
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include <iostream>
+        -:    4:#include <string.h>
+        -:    5:#include <sys/types.h>
+        -:    6:#include <sys/socket.h>
+        -:    7:#include <netinet/in.h>
+        -:    8:#include <arpa/inet.h>
+        -:    9:#include <sys/wait.h>
+        -:   10:#include <unistd.h>
+        -:   11:#include <stdlib.h>
+        -:   12:#include <thread>
+        -:   13:#include <string>
+        -:   14:#include<signal.h>
+        -:   15:#define MAX_BUF 4096
+        -:   16:
+        -:   17:using namespace std;
+        -:   18:
+        -:   19:
+        -:   20:class Client{
+        -:   21:	private:
+        -:   22:		int Client_Socketfd;
+        -:   23:		int newsockfd;
+        -:   24:		int Port;
+        -:   25:		string ipaddr;
+        -:   26:		struct sockaddr_in server_addr;
+        -:   27:		struct sockaddr_in client_addr;
+        -:   28:		socklen_t len;
+        -:   29:	public:
+        4:   30:		Client(int _pno, string _ip) { Port = _pno; ipaddr = _ip; }
+        -:   31:		void Create_Socket();
+        -:   32:		void ConnectClient();
+        -:   33:		void ClientClose(int);
+        4:   34:		int getCliSockfd() { return Client_Socketfd; }
+        -:   35:		struct sockaddr_in getClientAddr(){ return client_addr; }
+        -:   36:		socklen_t getCAddrlen() { return len; }
+        -:   37:		void log(string);	
+        -:   38:};
+        -:   39://function to recieve the data from server
+        -:   40:void RecvData(int clientSocketFd, int flags);
+        -:   41://function to send data to the server
+        -:   42:void SendData(int clientSocketFd, int flags);
