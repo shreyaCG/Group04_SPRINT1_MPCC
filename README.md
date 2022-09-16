@@ -1,6 +1,6 @@
 # Group04MPCC
  
-# The flow of our project is discribed below:-
+# The flow of our project is described below:-
 
 1) Run the Server with Ip address and port number
 2) Run the Client with Ip address and port number
